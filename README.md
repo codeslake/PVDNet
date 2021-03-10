@@ -11,15 +11,14 @@
 This repository contains the official PyTorch implementation of the following paper:
 
 > **[Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes (TODO)](http://cg.postech.ac.kr/papers/2020_CGI_JY.pdf)**<br>
-> Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, Seungyong Lee, TOG2021
+> Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, Seungyong Lee, TOG 2021
 
 If you find this code useful, please consider citing:
 ```
-@InProceedings{Son_2021_TOG,
+@artical{Son_2021_TOG,
 author = {Son, Hyeongseok and Lee, Junyong and Lee, Jonghyeop and Cho, Sunghyun and Lee, Seungyong},
 title = {Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes},
-booktitle = {Trans. Graphics},
-month = {June},
+journal = {ACM Transactions on Graphics},
 year = {2021}
 }
 ```
@@ -35,13 +34,14 @@ All material related to our paper is available by following links:
 | [The main paper (todo)](https://drive.google.com/file/d/1mRVo3JefkgRd2VdJvG5M-8xWtvl60ZWg/view?usp=sharing) |
 | [Supplementary Files (todo)](https://drive.google.com/file/d/1sQTGHEcko2HxoIvneyrot3bUabPrN5l1/view?usp=sharing) |
 | [Checkpoint Files (todo)](https://www.dropbox.com/s/qohhmr9p81u0syi/checkpoints.zip?dl=0) |
-| Su *etal*'s dataset ([download](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0)/[reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
-| Nah *etal*'s dataset ([download](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0)/[reference](https://seungjunnah.github.io/Datasets/gopro)) |
+| Su *etal* [2017]'s dataset ([download](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0)/[reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
+| Nah *etal* [2017]'s dataset ([download](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0)/[reference](https://seungjunnah.github.io/Datasets/gopro)) |
 
 ## Training & testing of the network
 *Requirements*: `pip install -r requirements.txt`
 ### Training
 > Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal* dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (the offset can be modified by `config.data_offset` in `./configs/config.py`).
+>
 > Folder structure for Su *etal*'s dataset: `./datasets/train_DVD`. For Nah *etal* dataset:  `./datasets/train_nah`.
 
 ```bash
@@ -71,19 +71,19 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
 -dl
 ```
 * options
-    * `--is_train`: If it is specified, `run.py` will train the network.  
-    * `--mode`: The name of training mode. The logging folder named with the `mode` will be created under `./logs/PVDNet_TOG2021/[mode]`. 
-    * `--config`: The name of config file located as in `./config/[config].py` (config_PVDNet.py is used for our final model. config_joint.py is for jointly training BIMNet and PVDNet).
-    * `--trainer`: The name of trainer file located as in `./models/trainers/[trainer].py`.
-    * `--data`: The name of dataset (`DVD` or `nah`).
-    * `--LRS`: Learning rate scheduler to use (`CA`:Cosine annealing scheduler or `LD`:for step decay scheduler).
-    * `--network`: The name of network file (of PVDNet) located as in `./models/archs/[network].py`.
-    * `-b`: The batch size. For the multi GPU (`DistributedDataParallel`), the total batch size will be, `nproc_per_node * b`.
-    * `-th`: The number of thread (`num_workers`) used for the data loader (defined in `./models/baseModel`).
-    * `-dl`: The option whether to delete logs under `mode` (i.e., `./logs/PVDNet_TOG2021/[mode]/*`). Option works only when `--is_train` is specified.
+    * `--is_train`: If it is specified, `run.py` will train the network (*default:* `False`).  
+    * `--mode`: The name of training mode. The logging folder named with the `mode` will be created under `./logs/PVDNet_TOG2021/[mode]` (*default:* `PVDNet_DVD`). 
+    * `--config`: The name of config file located as in `./config/[config].py` (`config_PVDNet`.py is used for our final model. `config_joint`.py is for jointly training of BIMNet and PVDNet, *default:* `config_PVDNet_DVD`).
+    * `--trainer`: The name of trainer file located as in `./models/trainers/[trainer].py` (*default:* `trainer`).
+    * `--data`: The name of dataset (`DVD` or `nah`, *default:* `DVD`).
+    * `-LRS`: Learning rate scheduler for training (`CA`:Cosine annealing scheduler or `LD`:for step decay scheduler, *default:* `CA`).
+    * `--network`: The name of network file (of PVDNet) located as in `./models/archs/[network].py` (*default:* `PVDNet`).
+    * `-b`: The batch size. For the multi GPU (`DistributedDataParallel`), the total batch size will be, `nproc_per_node * b` (*default:* 8).
+    * `-th`: The number of thread (`num_workers`) used for the data loader (defined in `./models/baseModel`, *default:* batch size).
+    * `-dl`: The option whether to delete logs under `mode` (i.e., `./logs/PVDNet_TOG2021/[mode]/*`). Option works only when `--is_train` is specified (*default:* `False`).
     * `-r`: Resume training with specified epoch # (e.g., `-r 100`). Note that `-dl` should not be specified with this option.
-    * `-dist`: whether to use `DistributedDataParallel`.
-    * `-ss`: whether to save sample images (samples can be found in `./logs/PVDNet_TOG2021/samples`).
+    * `-dist`: whether to use `DistributedDataParallel` (*default:* `False`).
+    * `-ss`: whether to save sample images (samples can be found in `./logs/PVDNet_TOG2021/samples`, *default:* `False`).
 
 ### Testing
 ```bash
@@ -100,15 +100,18 @@ python run.py --mode [MODE] --data [DATASET]
 
 ## Testing with pre-trained weights of TOG2021
 > Download pretrained weights from [here TODO](). Then, unzip them under `./ckpt`.
+>
 > Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (the offset can be modified by `config.data_offset` in `./configs/config.py`).
+>
 > Folder structure for Su *etal*'s dataset: `./datasets/test_DVD`. For Nah *etal* dataset: `./datasets/test_nah`.
 
 To test the final model:
+
     ```bash
     ## Table 4 in the main paper (Evaluation on Su <i>etal</i>'s dataset)
     # Our final model 
     python run.py --mode PVDNet_DVD --config config_PVDNet --data DVD --ckpt_abs_name ckpt/PVDNet_DVD.pytorch
-
+    
     ## Table 5 in the main paper (Evaluation on Nah <i>etal</i>'s dataset)
     # Small model on Nah <i>etal</i>'s dataset
     python run.py --mode PVDNet_nah --config config_PVDNet --data nah --ckpt_abs_name ckpt/PVDNet_nah.pytorch
@@ -116,6 +119,7 @@ To test the final model:
     python run.py --mode PVDNet_nah --config config_PVDNet_large --data nah --ckpt_abs_name ckpt/PVDNet_large_nah.pytorch
     ```
 
+* options
     * `--data`: The name of a dataset for evaluation. We have `DVD, nah` and `any`, where their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`. `--data any` is for testing models with any images, which should be placed under the folder `./datasets/any`. 
 
 

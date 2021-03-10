@@ -101,6 +101,7 @@ class Trainer():
                                 print_logs(state.upper() + ' TOTAL', self.config.mode, epoch, self.max_epoch, epoch_time, iter = self.model.itr_global[state], iter_total = self.config.total_itr, errs = self.err_epoch[state], lr = self.lr, is_overwrite = False)
                             else:
                                 print_logs(state.upper() + ' TOTAL', self.config.mode, epoch, self.max_epoch, epoch_time, errs = self.err_epoch[state], lr = self.lr, is_overwrite = False)
+                            print('\n\n')
 
                             if state == 'valid':
                                 is_saved = False
@@ -213,7 +214,7 @@ def init_dist(backend='nccl', **kwargs):
 
 if __name__ == '__main__':
     project = 'PVDNet_TOG2021'
-    mode = 'fix_BIMNet'
+    mode = 'PVDNet_DVD'
 
     from configs.config import set_train_path
     import importlib
@@ -221,27 +222,27 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--is_train', action = 'store_true', default = False, help = 'whether to delete log')
-    parser.add_argument('--config', type = str, default = None, help = 'config name')
+    parser.add_argument('--config', type = str, default = 'config_PVDNet', help = 'config name')
     parser.add_argument('--mode', type = str, default = mode, help = 'mode name')
     parser.add_argument('--project', type = str, default = project, help = 'project name')
+    parser.add_argument('-data', '--data', type=str, default = 'DVD', help = 'dataset to train')
+    parser.add_argument('-LRS', '--learning_rate_scheduler', type=str, default = 'CA', help = 'learning rate scheduler to use [LD or CA]')
     parser.add_argument('-b', '--batch_size', type = int, default = 8, help = 'number of batch')
     args, _ = parser.parse_known_args()
 
     if args.is_train:
         config_lib = importlib.import_module('configs.{}'.format(args.config))
-        config = config_lib.get_config(args.project, args.mode, args.config, args.batch_size)
+        config = config_lib.get_config(args.project, args.mode, args.config, args.data, args.learning_rate_scheduler, args.batch_size)
         config.is_train = True
 
         ## DEFAULT
-        parser.add_argument('-trainer', '--trainer', type = str, default = config.mode, help = 'model name')
-        parser.add_argument('-net', '--network', type = str, default = config.mode, help = 'network name')
+        parser.add_argument('-trainer', '--trainer', type = str, default = 'trainer', help = 'model name')
+        parser.add_argument('-net', '--network', type = str, default = 'PVDNet', help = 'network name')
         parser.add_argument('-r', '--resume', type = str, default = config.resume, help = 'name of state or ckpt (names are the same)')
         parser.add_argument('-dl', '--delete_log', action = 'store_true', default = False, help = 'whether to delete log')
         parser.add_argument('-lr', '--lr_init', type = float, default = config.lr_init, help = 'leraning rate')
         parser.add_argument('-th', '--thread_num', type = int, default = config.thread_num, help = 'number of thread')
         parser.add_argument('-dist', '--dist', action = 'store_true', default = config.dist, help = 'whether to distributed pytorch')
-        parser.add_argument('-data', '--data', type=str, default = 'nah', help = 'dataset to train')
-        parser.add_argument('-LRS', '--learning_rate_scheduler', type=str, default = 'CA', help = 'learning rate scheduler to use [LD or CA]')
         parser.add_argument('-vs', '--is_verbose', action = 'store_true', default = False, help = 'whether to delete log')
         parser.add_argument('-ss', '--save_sample', action = 'store_true', default = False, help = 'whether to save_sample')
         parser.add_argument("--local_rank", type=int)
@@ -336,7 +337,6 @@ if __name__ == '__main__':
         parser.add_argument('-ckpt_sc', '--ckpt_score', action = 'store_true', help='ckpt name')
         parser.add_argument('-dist', '--dist', action = 'store_true', default = False, help = 'whether to distributed pytorch')
         parser.add_argument('-eval_mode', '--eval_mode', type=str, default = 'quan', help = 'evaluation mode. qual(qualitative)/quan(quantitative)')
-        parser.add_argument('-data', '--data', type=str, default = 'DVD', help = 'dataset to evaluate(DVD/nah)')
         args, _ = parser.parse_known_args()
 
         config.network = args.network

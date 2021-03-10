@@ -98,13 +98,16 @@ class Model(baseModel):
         self.optimizers.append(self.optimizer)
 
     def _set_lr_scheduler(self):
+        if self.rank <= 0: print(toGreen('Loading Learning Rate Scheduler...'))
         if self.config.LRS == 'CA':
+            if self.rank <= 0: print(toRed('\tCosine annealing scheduler...'))
             for optimizer in self.optimizers:
                 self.schedulers.append(
                     lr_scheduler.CosineAnnealingLR_Restart(
                         optimizer, self.config.T_period, eta_min= self.config.eta_min,
                         restarts= self.config.restarts, weights= self.config.restart_weights))
         elif self.config.LRS == 'LD':
+            if self.rank <= 0: print(toRed('\tLR dacay scheduler...'))
             for optimizer in self.optimizers:
                 self.schedulers.append(
                     lr_scheduler.LR_decay(

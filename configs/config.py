@@ -4,14 +4,14 @@ import os
 import collections
 import numpy as np
 
-def get_config(project = '', mode = '', config_ = '', batch_size = 8):
+def get_config(project = '', mode = '', config_ = '', data = '', LRS = '', batch_size = 8):
     ## GLOBAL
     config = edict()
     config.project = project
     config.mode = mode
     config.config = config_
     config.is_train = False
-    config.thread_num = 1
+    config.thread_num = batch_size
     config.dist = False
     config.resume = None # 'resume epoch'
     config.manual_seed = 0
@@ -32,11 +32,7 @@ def get_config(project = '', mode = '', config_ = '', batch_size = 8):
     config.gc = 1.0 # gradient clipping
 
     ## Naive Decay
-    config.LRS = 'LD' # LD
-    config.total_itr = 600000
-    config.decay_period = [400000]
-    config.decay_rate = 0.25
-    config.warmup_itr = -1
+    config.LRS = LRS # LD or CA
 
     # adam
     config.beta1 = 0.9
@@ -79,7 +75,7 @@ def get_config(project = '', mode = '', config_ = '', batch_size = 8):
     ##################################### EVAL ######################################
     config.EVAL = edict()
     config.EVAL.eval_mode = 'quan'
-    config.EVAL.data = 'DVD' 
+    config.EVAL.data = 'nah' 
 
     config.EVAL.load_ckpt_by_score = True
     config.EVAL.ckpt_name = None

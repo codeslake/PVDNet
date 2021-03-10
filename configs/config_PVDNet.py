@@ -4,10 +4,10 @@ import math
 import torch
 import numpy as np
 
-def get_config(project = '', mode = '', config = '', batch_size = 8):
+def get_config(project = '', mode = '', config = '', data = '', LRS = '', batch_size = 8):
 
     ## GLOBAL
-    config = main_config(project, mode, config, batch_size)
+    config = main_config(project, mode, config, data, LRS, batch_size)
 
     ## LOCAL
     actual_batch_size = config.batch_size * torch.cuda.device_count()
@@ -43,7 +43,6 @@ def get_config(project = '', mode = '', config = '', batch_size = 8):
 
     our_epoch = math.ceil(config.total_itr / IpE)
 
-    config.LRS = 'LD' # CA
     if config.LRS == 'LD':
         # lr_decay
         config.decay_period = [400000]
