@@ -44,6 +44,8 @@ All material related to our paper is available by following links:
 
 > Folder structure for Su *etal*'s dataset should be `./datasets/test_DVD/`, and for Nah *etal* dataset, `./datasets/test_nah/`.
 
+> *The offset path for the datasets can be specified by modifying `config.data_offset` in `./configs/config.py`*
+
 To test the final model:
 
 ```bash
