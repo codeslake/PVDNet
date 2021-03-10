@@ -37,7 +37,7 @@ All material related to our paper is available by following links:
 | Su *etal* [2017]'s dataset ([download](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0)/[reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
 | Nah *etal* [2017]'s dataset ([download](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0)/[reference](https://seungjunnah.github.io/Datasets/gopro)) |
 
-## Training & testing of the network
+## Training & testing the network
 *Requirements*: `pip install -r requirements.txt`
 ### Training
 > Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets/` 
@@ -110,7 +110,7 @@ python run.py --mode [MODE] --data [DATASET]
     * `-ckpt_epoch`: Loads the checkpoint of the specified epoch (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_epoch 0`). 
     * `-ckpt_sc`: Loads the checkpoint with the best validation score (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_sc`)    
 
-## Testing with pre-trained weights of TOG2021
+## Testing on models of TOG2021
 > Download pretrained weights from [here TODO](). Then, unzip them under `./ckpt/`.
 >
 > Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (the offset can be modified by `config.data_offset` in `./configs/config.py`).
