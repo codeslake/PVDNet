@@ -40,9 +40,7 @@ All material related to our paper is available by following links:
 ## Testing models of TOG2021
 > Download pretrained weights from [here TODO](). Then, unzip them under `./ckpt/`.
 >
-> Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (the offset can be modified by `config.data_offset` in `./configs/config.py`).
-
-> Folder structure for Su *etal*'s dataset should be `./datasets/test_DVD/`, and for Nah *etal* dataset, `./datasets/test_nah/`.
+> Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (*e.g.*, `./datasets/test_DVD/`, `./datasets/test_nah/`).
 
 > *The offset path for the datasets can be specified by modifying `config.data_offset` in `./configs/config.py`*
 
@@ -68,9 +66,7 @@ python run.py --mode PVDNet_nah --config config_PVDNet_large --data nah --ckpt_a
 ## Training & testing the network
 *Requirements*: `pip install -r requirements.txt`
 ### Training
-> Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets/` 
->
-> Folder structure for Su *etal*'s dataset: `./datasets/train_DVD/`. For Nah *etal*'s dataset:  `./datasets/train_nah/`.
+> Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets/` (*e.g.*, `./datasets/train_DVD/`, `./datasets/train_nah/`).
 
 > *The offset path for the datasets can be specified by modifying `config.data_offset` in `./configs/config.py`*
 
