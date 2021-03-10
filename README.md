@@ -42,7 +42,7 @@ All material related to our paper is available by following links:
 >
 > Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (*i.e.*, `./datasets/test_DVD/`, `./datasets/test_nah/`).
 
-> *The offset path for the datasets can be specified by modifying `config.data_offset` in `./configs/config.py`*
+> *The offset path for the datasets can be specified by modifying `config.data_offset` in `./configs/config.py`.*
 
 To test the final model:
 
@@ -68,7 +68,7 @@ python run.py --mode PVDNet_nah --config config_PVDNet_large --data nah --ckpt_a
 ### Training
 > Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets/` (*i.e.*, `./datasets/train_DVD/`, `./datasets/train_nah/`).
 
-> *The offset path for the datasets can be specified by modifying `config.data_offset` in `./configs/config.py`*
+> *The offset path for the datasets can be specified by modifying `config.data_offset` in `./configs/config.py`.*
 
 ```bash
 # multi GPU (with DistributedDataParallel) example
