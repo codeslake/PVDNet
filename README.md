@@ -36,12 +36,12 @@ All material related to our paper is available by following links:
 | [Supplementary Files (todo)](https://drive.google.com/file/d/1sQTGHEcko2HxoIvneyrot3bUabPrN5l1/view?usp=sharing) |
 | [Checkpoint Files (todo)](https://www.dropbox.com/s/qohhmr9p81u0syi/checkpoints.zip?dl=0) |
 | Su *etal*'s dataset ([download](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0)/[reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
-| Nah *etal* dataset ([download](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0)/[reference](https://seungjunnah.github.io/Datasets/gopro)) |
+| Nah *etal*'s dataset ([download](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0)/[reference](https://seungjunnah.github.io/Datasets/gopro)) |
 
 ## Training & testing of the network
 *Requirements*: `pip install -r requirements.txt`
 ### Training
-> Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/y0cc3loytfbd81h/DPDD.zip?dl=0) or [Nah *etal* dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (the offset can be modified by `config.data_offset` in `./configs/config.py`).
+> Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal* dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (the offset can be modified by `config.data_offset` in `./configs/config.py`).
 > Folder structure for Su *etal*'s dataset: `./datasets/train_DVD`. For Nah *etal* dataset:  `./datasets/train_nah`.
 
 ```bash
@@ -88,19 +88,19 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
 ### Testing
 ```bash
 python run.py --mode [MODE] --data [DATASET]
-# e.g., python run.py --mode IFAN --data DPDD
+# e.g., python run.py --mode PVDNet_DVD --data DVD
 ```
 * options
     * `--mode`: The name of the training mode that you want to test.
-    * `--data`: The name of a dataset for evaluation. We have `DPDD, RealDOF, CUHK, PixelDP, any`, and their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`.
-    * `-ckpt_name`: Load sthe checkpoint with the name of the checkpoint under `./logs/PVDNet_TOG2021/[mode]/checkpoint/train/epoch/ckpt/` (e.g., `python run.py --mode IFAN --data DPDD --ckpt_name IFAN_00000.pytorch`).
-    * `-ckpt_abs_name`. Loads the checkpoint of the absolute path (e.g., `python run.py --mode IFAN --data DPDD --ckpt_abs_name ./ckpt/IFAN.pytorch`).
-    * `-ckpt_epoch`: Loads the checkpoint of the specified epoch (e.g., `python run.py --mode IFAN --data DPDD --ckpt_epoch 0`). 
-    * `-ckpt_sc`: Loads the checkpoint with the best validation score (e.g., `python run.py --mode IFAN --data DPDD --ckpt_sc`)    
+    * `--data`: The name of a dataset for evaluation. We have `DVD, nah and any`, and their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`.
+    * `-ckpt_name`: Load the checkpoint with the name of the checkpoint under `./logs/PVDNet_TOG2021/[mode]/checkpoint/train/epoch/ckpt/` (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_name PVDNet_DVD_00000.pytorch`).
+    * `-ckpt_abs_name`. Loads the checkpoint of the absolute path (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_abs_name ./ckpt/PVDNet_DVD.pytorch`).
+    * `-ckpt_epoch`: Loads the checkpoint of the specified epoch (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_epoch 0`). 
+    * `-ckpt_sc`: Loads the checkpoint with the best validation score (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_sc`)    
 
 ## Testing with pre-trained weights of TOG2021
-> Download pretrained weights from [here](https://www.dropbox.com/s/jp98w1xv60mg772/PVDNet_DVD.pytorch?dl=0). Then, unzip them under `./ckpt`.
-> Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/y0cc3loytfbd81h/DPDD.zip?dl=0) or [Nah *etal* dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (the offset can be modified by `config.data_offset` in `./configs/config.py`).
+> Download pretrained weights from [here TODO](). Then, unzip them under `./ckpt`.
+> Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (the offset can be modified by `config.data_offset` in `./configs/config.py`).
 > Folder structure for Su *etal*'s dataset: `./datasets/test_DVD`. For Nah *etal* dataset: `./datasets/test_nah`.
 
 To test the final model:
@@ -116,7 +116,7 @@ To test the final model:
     python run.py --mode PVDNet_nah --config config_PVDNet_large --data nah --ckpt_abs_name ckpt/PVDNet_large_nah.pytorch
     ```
 
-    * `--data`: The name of a dataset for evaluation. We have `DVD, nah`, and their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`. `--data any` is for testing models with any images, which should be placed under the folder `./datasets/any`. 
+    * `--data`: The name of a dataset for evaluation. We have `DVD, nah` and `any`, where their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`. `--data any` is for testing models with any images, which should be placed under the folder `./datasets/any`. 
 
 
 ## License ##
