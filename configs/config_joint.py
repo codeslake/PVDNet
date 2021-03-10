@@ -21,7 +21,7 @@ def get_config(project = '', mode = '', config = '', batch_size = 8):
     config.network_PVDNet = config.network
 
     config.PV_ksize = 5
-    config.fix_BIMNet = True
+    config.fix_BIMNet = False
 
     ## data
     config.frame_itr_num = 13

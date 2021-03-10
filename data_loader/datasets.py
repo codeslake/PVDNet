@@ -93,7 +93,7 @@ class datasets(data.Dataset):
                     gauss = np.random.normal(mean,1e-4,(row,col,ch))
                     gauss = gauss.reshape(row,col,ch)
 
-                    input_img = np.expand_dims(np.clip(input_img[0] + gauss, 0.0, 1.0), axis = 0)
+                    input_img = np.expand_dims(np.clip(input_img[0] + gauss, -1.0, 1.0), axis = 0)
 
             input_patches_temp[frame_idx] = input_img
             gt_patches_temp[frame_idx] = gt_img

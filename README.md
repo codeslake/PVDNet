@@ -1,8 +1,8 @@
 
 
 # Iterative Filter Adaptive Network for Single Image Defocus Deblurring
-![Python 3.8.5](https://img.shields.io/badge/python-3.8.5-green.svg?style=plastic)
-![PyTorch 1.6.0](https://img.shields.io/badge/PyTorch-1.6.0-green.svg?style=plastic)
+![Python 3.8.8](https://img.shields.io/badge/python-3.8.8-green.svg?style=plastic)
+![PyTorch 1.8.0](https://img.shields.io/badge/PyTorch-1.8.0-green.svg?style=plastic)
 ![CUDA 10.1.105](https://img.shields.io/badge/CUDA-10.1.105-green.svg?style=plastic)
 ![License CC BY-NC](https://img.shields.io/badge/license-GNU_AGPv3-blue.svg?style=plastic)
 
@@ -10,21 +10,21 @@
 
 This repository contains the official PyTorch implementation of the following paper:
 
-> **[Iterative Filter Adaptive Network for Single Image Defocus Deblurring (todo)](http://cg.postech.ac.kr/papers/2020_CGI_JY.pdf)**<br>
-> Junyong Lee, Hyeongseok Son, Jaesung Rim, Sunghyun Cho, Seungyong Lee, CVPR2021
+> **[Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes (TODO)](http://cg.postech.ac.kr/papers/2020_CGI_JY.pdf)**<br>
+> Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, Seungyong Lee, TOG2021
 
 If you find this code useful, please consider citing:
 ```
 @InProceedings{Lee_2021_CVPR,
-author = {Lee, Junyong and Son, Hyeongseok and Rim, Jaesung and Cho, Sunghyun and Lee, Seungyong},
-title = {Iterative Filter Adaptive Network for Single Image Defocus Deblurring},
-booktitle = {The IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+author = {Son, Hyeongseok and Lee, Junyong and Lee, Jonghyeop and Cho, Sunghyun and Lee, Seungyong},
+title = {Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes},
+booktitle = {Trans. Graphics},
 month = {June},
 year = {2021}
 }
 ```
 
-For any inquiries, please contact [junyonglee@postech.ac.kr](mailto:junyonglee@postech.ac.kr)
+For any inquiries, please contact [sonhs@postech.ac.kr](mailto:sonhs@postech.ac.kr) or [junyonglee@postech.ac.kr](mailto:junyonglee@postech.ac.kr)
 
 ## Resources
 
@@ -34,11 +34,9 @@ All material related to our paper is available by following links:
 | :-------------- |
 | [The main paper (todo)](https://drive.google.com/file/d/1mRVo3JefkgRd2VdJvG5M-8xWtvl60ZWg/view?usp=sharing) |
 | [Supplementary Files (todo)](https://drive.google.com/file/d/1sQTGHEcko2HxoIvneyrot3bUabPrN5l1/view?usp=sharing) |
-| [Checkpoint Files](https://www.dropbox.com/s/qohhmr9p81u0syi/checkpoints.zip?dl=0) |
-| The DPDD dataset ([download](https://www.dropbox.com/s/w9urn5m4mzllrwu/DPDD.zip?dl=0)/[reference](https://github.com/Abdullah-Abuolaim/defocus-deblurring-dual-pixel)) |
-| The PixelDP test set ([download](https://www.dropbox.com/s/pw7w2bpp7pc410n/PixelDP.zip?dl=0)/[reference](https://ln2.sync.com/dl/ec54aa480/b28q2xma-9xa3w5tx-ss2cv7dg-2yx935qs/view/default/10770664900008)) |
-| The CUHK dataset ([download](https://www.dropbox.com/s/zxjhzuxsxh4v0cv/CUHK.zip?dl=0)/[reference](http://www.cse.cuhk.edu.hk/~leojia/projects/dblurdetect/dataset.html)) |
-| [The RealDOF test set](https://www.dropbox.com/s/arox1aixvg67fw5/RealDOF.zip?dl=0) |
+| [Checkpoint Files (todo)](https://www.dropbox.com/s/qohhmr9p81u0syi/checkpoints.zip?dl=0) |
+| DVD dataset ([download](https://www.dropbox.com/s/w9urn5m4mzllrwu/DPDD.zip?dl=0)/[reference](https://github.com/Abdullah-Abuolaim/defocus-deblurring-dual-pixel)) |
+| nah *etal* dataset ([download](https://www.dropbox.com/s/pw7w2bpp7pc410n/PixelDP.zip?dl=0)/[reference](https://ln2.sync.com/dl/ec54aa480/b28q2xma-9xa3w5tx-ss2cv7dg-2yx935qs/view/default/10770664900008)) |
 
 ## Training & testing of the network
 *Requirements*: `pip install -r requirements.txt`

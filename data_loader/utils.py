@@ -17,6 +17,8 @@ def read_frame(path, norm_val = None, rotate = None):
             frame = cv2.rotate(frame, rotate)
         frame = frame / 255.
 
+    frame = (frame * 2.) - 1.
+
 
     return np.expand_dims(frame, axis = 0)
 

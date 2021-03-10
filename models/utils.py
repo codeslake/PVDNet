@@ -30,22 +30,25 @@ def get_psnr2(img1, img2, PIXEL_MAX=1.0):
     return 10 * torch.log10(PIXEL_MAX / mse_)
 
     # return calculate_psnr(img1, img2)
+    
+def norm(inp):
+    return (inp + 1.) / 2.
 
 Backward_tensorGrid = {}
-DPD_zero = {}
-def DPD(tensorInput, tensorFlow, padding_mode = 'zeros'):
+def warp(tensorInput, tensorFlow):
     if str(tensorFlow.size()) not in Backward_tensorGrid:
-        DPD_zero[str(tensorFlow.size())] = torch.zeros_like(tensorFlow[:, 0:1, :, :]).to(torch.device('cuda'))
         tensorHorizontal = torch.linspace(-1.0, 1.0, tensorFlow.size(3)).view(1, 1, 1, tensorFlow.size(3)).expand(tensorFlow.size(0), -1, tensorFlow.size(2), -1)
         tensorVertical = torch.linspace(-1.0, 1.0, tensorFlow.size(2)).view(1, 1, tensorFlow.size(2), 1).expand(tensorFlow.size(0), -1, -1, tensorFlow.size(3))
 
-        Backward_tensorGrid[str(tensorFlow.size())] = torch.cat([ tensorHorizontal, tensorVertical ], 1).to(torch.device('cuda'))
+        Backward_tensorGrid[str(tensorFlow.size())] = torch.cat([ tensorHorizontal, tensorVertical ], 1).cuda()
 
-    DPDM = torch.cat([ tensorFlow[:, 0:1, :, :] / ((tensorInput.size(3) - 1.0) / 2.0),  DPD_zero[str(tensorFlow.size())]], 1)
-    return torch.nn.functional.grid_sample(input=tensorInput, grid=(Backward_tensorGrid[str(tensorFlow.size())] + DPDM).permute(0, 2, 3, 1), mode='bilinear', padding_mode=padding_mode, align_corners = True)
+    tensorFlow = torch.cat([ tensorFlow[:, 0:1, :, :] / ((tensorInput.size(3) - 1.0) / 2.0), tensorFlow[:, 1:2, :, :] / ((tensorInput.size(2) - 1.0) / 2.0) ], 1)
+    # tensorFlow = torch.cat([ 2.0 * (tensorFlow[:, 0:1, :, :] / (tensorInput.size(3) - 1.0)) - 1.0 , 2.0 * (tensorFlow[:, 1:2, :, :] / (tensorInput.size(2) - 1.0)) - 1.0  ], 1)
+
+    return torch.nn.functional.grid_sample(input=tensorInput, grid=(Backward_tensorGrid[str(tensorFlow.size())] + tensorFlow).permute(0, 2, 3, 1), mode='bilinear', padding_mode='zeros', align_corners = True)
 
 def upsample(inp, h = None, w = None, mode = 'bilinear'):
     # if h is None or w is None:
-    return F.interpolate(input=inp, size=(int(h), int(w)), mode=mode)
+    return F.interpolate(input=inp, size=(int(h), int(w)), mode=mode, align_corners=False)
     # elif scale_factor is not None:
     #     return F.interpolate(input=inp, scale_factor=scale_factor, mode='bilinear', align_corners=False)

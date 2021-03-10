@@ -22,9 +22,6 @@ def get_config(project = '', mode = '', config_ = '', batch_size = 8):
     config.trainer = ''
     config.network = ''
 
-    config.in_bit = 8
-    config.norm_val = (2**config.in_bit - 1)
-
     config.batch_size = batch_size
     config.batch_size_test = 1
     config.height = 256
@@ -32,20 +29,20 @@ def get_config(project = '', mode = '', config_ = '', batch_size = 8):
 
     # learning rate
     config.lr_init = 1e-4
-    config.gc = 1.0
+    config.gc = 1.0 # gradient clipping
 
     ## Naive Decay
     config.LRS = 'LD' # LD
     config.total_itr = 600000
-    config.decay_period = [500000, 550000]
-    config.decay_rate = 0.5
+    config.decay_period = [400000]
+    config.decay_rate = 0.25
     config.warmup_itr = -1
 
     # adam
     config.beta1 = 0.9
 
     # data dir
-    config.data = 'DVD'
+    config.data = 'DVD' # 'nah'
     config.data_offset = '/data1/junyonglee/video_deblur'
     config.data_path = None
     config.input_path = None
@@ -54,8 +51,8 @@ def get_config(project = '', mode = '', config_ = '', batch_size = 8):
     # logs
     config.max_ckpt_num = 100
     config.write_ckpt_every_epoch = 4
-    config.refresh_image_log_every_epoch = {'train':200, 'valid':200}
-    config.write_log_every_itr = {'train':40, 'valid': 20}
+    config.refresh_image_log_every_epoch = {'train':16, 'valid':16}
+    config.write_log_every_itr = {'train':65, 'valid': 20}
 
     # log dirs
     config.LOG_DIR = edict()

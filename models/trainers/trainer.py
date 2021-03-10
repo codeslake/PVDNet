@@ -24,9 +24,6 @@ import importlib
 from shutil import copy2
 import os
 
-def norm(inp):
-    return (inp + 1.) / 2.
-
 class Model(baseModel):
     def __init__(self, config):
         super(Model, self).__init__(config)
@@ -146,15 +143,16 @@ class Model(baseModel):
         return lr
 
     ########################### Edit from here for training/testing scheme ###############################
-    def _set_results(self, inputs, outs, errs, norm, lr, is_train):
+    def _set_results(self, inputs, outs, errs, norm_, lr, is_train):
         ## save visuals (inputs)
         if self.rank <=0 and self.config.save_sample:
             self.results['inputs'] = collections.OrderedDict()
-            self.results['inputs']['input'] = inputs['input'][0:1, -1, :, :, :]
-            self.results['inputs']['gt'] = inputs['gt'][0:1, -1, :, :, :]
+            self.results['inputs']['input'] = norm(inputs['input'][0:1, -1, :, :, :])
+            self.results['inputs']['gt'] = norm(inputs['gt'][0:1, -1, :, :, :])
 
             ## save visuals (outputs)
             self.results['outs'] = {}
+            self.results['outs']['result'] = norm(outs['result'][0:1])
             self.results['outs']['warped_bb'] = outs['warped_bb'][0:1]
             if self.config.fix_BIMNet is False:
                 self.results['outs']['warped_bs'] = outs['warped_bb'][0:1]
@@ -164,7 +162,7 @@ class Model(baseModel):
         ## essential ##
         # save scalars
         self.results['errs'] = errs
-        self.results['norm'] = norm
+        self.results['norm'] = norm_
         # learning rate
         self.results['lr'] = lr
 
@@ -210,7 +208,7 @@ class Model(baseModel):
         if is_train or is_train is False and inputs['is_first']:
             self.I_prev_deblurred = Is[:, 0, :, :, :]
 
-        norm = 0
+        norm_ = 0
         for i in range(Is.size()[1]-2):
             # run network & get errs and outputs
             I_prev = Is[:, i, :, :, :]
@@ -226,15 +224,15 @@ class Model(baseModel):
             # update network & get learning rate
             lr = self._update(errs, self.config.warmup_itr) if is_train else None
 
-            norm += outs['result'].size()[0]
+            norm_ += outs['result'].size()[0]
             for k, v in errs.items():
                 v_t = 0 if i == 0 else errs_total[k]
                 errs_total[k] = v_t + v * outs['result'].size()[0]
 
-        assert norm != 0
+        assert norm_ != 0
 
         # set results for the log
-        self._set_results(inputs, outs, errs_total, norm, lr, is_train)
+        self._set_results(inputs, outs, errs_total, norm_, lr, is_train)
 
 class DeblurNet(nn.Module):
     def __init__(self, config):
@@ -266,11 +264,13 @@ class DeblurNet(nn.Module):
                 torch.nn.init.constant_(m.bias, 0)
 
     def init(self):
-        print('\t\t', self.BIMNet.load_state_dict(torch.load('./ckpt/liteFlowNet_image_partial_00120.pytorch')))
         if self.config.fix_BIMNet:
+            print('\t\t', self.BIMNet.load_state_dict(torch.load('./ckpt/BIMNet.pytorch')))
             if self.rank <= 0: print(toRed('\t\tBIMNet fixed'))
             for param in self.BIMNet.parameters():
                 param.requires_grad_(False)
+        else:
+            self.BIMNet.apply(self.weights_init)
 
         self.PVDNet.apply(self.weights_init)
 
@@ -281,9 +281,6 @@ class DeblurNet(nn.Module):
         img = torch.FloatTensor(np.random.randn(b, c, h, w)).cuda()
 
         return {'I_prev': img, 'I_curr': img, 'I_next': img, 'I_prev_deblurred': img}
-
-    def upsample(self, inp, h, w):
-        return torch.nn.functional.interpolate(input=inp, size=(h, w), mode='bilinear', align_corners=False)
 
     #####################################################
     def forward(self, I_prev, I_curr, I_next, I_prev_deblurred, gt_prev=None, gt_curr=None, is_train=False):
@@ -298,7 +295,7 @@ class DeblurNet(nn.Module):
 
         outs = collections.OrderedDict()
         ## BIMNet
-        w_bb = self.upsample(self.BIMNet(norm(I_curr_refined ), norm(I_prev_refined )), refine_h, refine_w)
+        w_bb = upsample(self.BIMNet(norm(I_curr_refined ), norm(I_prev_refined )), refine_h, refine_w)
         if refine_h != h or refine_w != w:
             w_bb = F.pad(w_bb,(0, w - refine_w, 0, h - refine_h, 0, 0, 0, 0))
          
@@ -310,9 +307,9 @@ class DeblurNet(nn.Module):
             gt_curr_refined = gt_curr[:, :, 0 : refine_h, 0 : refine_w]
             gt_prev_refined = gt_prev[:, :, 0 : refine_h, 0 : refine_w]
 
-            w_bs = self.upsample(self.BIMNet(norm(gt_curr_refined), norm(I_prev_refined )), refine_h, refine_w)
-            w_sb = self.upsample(self.BIMNet(norm(I_curr_refined ), norm(gt_prev_refined)), refine_h, refine_w)
-            w_ss = self.upsample(self.BIMNet(norm(gt_curr_refined), norm(gt_prev_refined)), refine_h, refine_w)
+            w_bs = upsample(self.BIMNet(norm(gt_curr_refined), norm(I_prev_refined )), refine_h, refine_w)
+            w_sb = upsample(self.BIMNet(norm(I_curr_refined ), norm(gt_prev_refined)), refine_h, refine_w)
+            w_ss = upsample(self.BIMNet(norm(gt_curr_refined), norm(gt_prev_refined)), refine_h, refine_w)
 
             if refine_h != h or refine_w != w:
                 w_bs = F.pad(w_bs,(0, w - refine_w, 0, h - refine_h, 0, 0, 0, 0))
@@ -331,4 +328,7 @@ class DeblurNet(nn.Module):
                 outs['warped_ss_mask'] = warp(torch.ones_like(gt_prev), w_ss)
 
         elif is_train and self.config.fix_BIMNet and self.config.save_sample:
-            outs['warped_bb'] = warp(n
+            outs['warped_bb'] = warp(norm(gt_prev), w_bb)
+
+        return outs
+

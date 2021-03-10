@@ -42,8 +42,8 @@ class Trainer():
         self.ckpt_manager = CKPT_Manager(config.LOG_DIR.ckpt, config.mode, config.max_ckpt_num, is_descending = True)
 
         ## training vars
-        #self.states = ['train', 'valid']
-        self.states = ['valid', 'train']
+        self.states = ['train', 'valid']
+        # self.states = ['valid', 'train']
         self.max_epoch = int(math.ceil(config.total_itr / self.model.get_itr_per_epoch('train')))
 
         if self.rank <= 0: print(toGreen('Max Epoch: {}'.format(self.max_epoch)))
@@ -174,23 +174,23 @@ class Trainer():
                                 for key, val in inputs.items():
                                     if val.dim() == 5:
                                         for j in range(val.size()[1]):
-                                            vutils.save_image(val[:, j, :, :, :], '{}/{}_{}_{}_{}_{}.jpg'.format(sample_dir, epoch, itr, i, key, j), nrow=3, padding = 0, normalize = False)
+                                            vutils.save_image(val[:, j, :, :, :], '{}/{}_{}_{}_{}_{}.jpg'.format(sample_dir, epoch, self.model.itr_global['train'], i, key, j), nrow=3, padding = 0, normalize = False)
                                     else:
                                         b, c, h, w = val.size()
                                         nrow = 1 if b == 1 else int(math.sqrt(b))
-                                        vutils.save_image(val, '{}/{}_{}_{}_{}.jpg'.format(sample_dir, epoch, itr, i, key), nrow=nrow, padding = 0, normalize = False)
+                                        vutils.save_image(val, '{}/{}_{}_{}_{}.jpg'.format(sample_dir, epoch, self.model.itr_global['train'], i, key), nrow=nrow, padding = 0, normalize = False)
                                         i += 1
 
                                 for key, val in outs.items():
                                     if val.dim() == 5:
                                         for j in range(val.size()[1]):
-                                            vutils.save_image(val[:, j, :, :, :], '{}/{}_{}_{}_out_{}_{}.jpg'.format(sample_dir, epoch, itr, i, key, j), nrow=3, padding = 0, normalize = False)
+                                            vutils.save_image(val[:, j, :, :, :], '{}/{}_{}_{}_out_{}_{}.jpg'.format(sample_dir, epoch, self.model.itr_global['train'], i, key, j), nrow=3, padding = 0, normalize = False)
                                     else:
                                         b, c, h, w = val.size()
                                         nrow = 1 if b == 1 else int(math.sqrt(b))
                                         if 'basis' in key:
                                             nrow = 6
-                                        vutils.save_image(val, '{}/{}_{}_{}_out_{}.jpg'.format(sample_dir, epoch, itr, i, key), nrow=nrow, padding = 0, normalize = False)
+                                        vutils.save_image(val, '{}/{}_{}_{}_out_{}.jpg'.format(sample_dir, epoch, self.model.itr_global['train'], i, key), nrow=nrow, padding = 0, normalize = False)
                                     i += 1
 
                             except Exception as ex:
