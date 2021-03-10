@@ -41,6 +41,12 @@ class Model(baseModel):
             copy2('./models/archs/{}.py'.format(config.network), self.config.LOG_DIR.offset)
             copy2('./models/archs/{}.py'.format(config.network_BIMNet), self.config.LOG_DIR.offset)
 
+        ### PROFILE ###
+        if self.rank <= 0:
+            print(toGreen('Computing model complexity...'))
+            with torch.no_grad():
+                Macs,params = get_model_complexity_info(self.network, (1, 3, 720, 1280), input_constructor = self.network.input_constructor, as_strings=False,print_per_layer_stat=config.is_verbose)
+
         ### INIT for training ###
         if self.is_train:
             self.itr_global = {'train': 0, 'valid': 0}
@@ -54,16 +60,10 @@ class Model(baseModel):
                 for name, param in self.network.named_parameters():
                     if self.rank <= 0: print(name, ', ', param.requires_grad)
 
-        ### PROFILE ###
-        if self.rank <= 0:
-            print(toGreen('Computing model complexity...'))
-            with torch.no_grad():
-                Macs,params = get_model_complexity_info(self.network, (1, 3, 720, 1280), input_constructor = self.network.input_constructor, as_strings=False,print_per_layer_stat=config.is_verbose)
-
         ### DDP ###
         if config.dist:
             if self.rank <= 0: print(toGreen('Building Dist Parallel Model...'))
-            self.network = DDP(self.network, device_ids=[torch.cuda.current_device()], output_device=torch.cuda.current_device(), broadcast_buffers=True, find_unused_parameters=True)
+            self.network = DDP(self.network, device_ids=[torch.cuda.current_device()], output_device=torch.cuda.current_device(), broadcast_buffers=True, find_unused_parameters=False)
         else:
             self.network = DP(self.network).to(torch.device('cuda'))
 
@@ -181,14 +181,15 @@ class Model(baseModel):
                 errs['image'] = self.MSE(outs['result'], gt_curr)
                 errs['total'] = errs['total'] + errs['image']
 
-            if is_train and self.config.fix_BIMNet is False:
-                # flow loss
-                err_bb = self.MSE_sum(outs['warped_bb'], norm(gt_curr) * outs['warped_bb_mask']) / outs['warped_bb_mask'].sum()
-                err_bs = self.MSE_sum(outs['warped_bs'], norm(gt_curr) * outs['warped_bs_mask']) / outs['warped_bs_mask'].sum()
-                err_sb = self.MSE_sum(outs['warped_sb'], norm(gt_curr) * outs['warped_sb_mask']) / outs['warped_sb_mask'].sum()
-                err_ss = self.MSE_sum(outs['warped_ss'], norm(gt_curr) * outs['warped_ss_mask']) / outs['warped_ss_mask'].sum()
-                errs['flow'] = (err_bb + err_bs + err_sb + err_ss) / 4.
-                errs['total'] = errs['total'] + errs['flow']
+            if is_train:
+                if self.config.fix_BIMNet is False:
+                    # flow loss
+                    err_bb = self.MSE_sum(outs['warped_bb'], norm(gt_curr) * outs['warped_bb_mask']) / outs['warped_bb_mask'].sum()
+                    err_bs = self.MSE_sum(outs['warped_bs'], norm(gt_curr) * outs['warped_bs_mask']) / outs['warped_bs_mask'].sum()
+                    err_sb = self.MSE_sum(outs['warped_sb'], norm(gt_curr) * outs['warped_sb_mask']) / outs['warped_sb_mask'].sum()
+                    err_ss = self.MSE_sum(outs['warped_ss'], norm(gt_curr) * outs['warped_ss_mask']) / outs['warped_ss_mask'].sum()
+                    errs['flow'] = (err_bb + err_bs + err_sb + err_ss) / 4.
+                    errs['total'] = errs['total'] + errs['flow']
             else:
                 errs['psnr'] = get_psnr2(outs['result'], gt_curr)
 
@@ -247,11 +248,6 @@ class DeblurNet(nn.Module):
         lib = importlib.import_module('models.archs.{}'.format(config.network_BIMNet))
         self.BIMNet = lib.Network()
 
-        if self.config.fix_BIMNet:
-            if self.rank <= 0: print(toRed('\t\tfixing BIMNet'))
-            for param in self.BIMNet.parameters():
-                param.requires_grad_(False)
-
         # PVDNet
         lib = importlib.import_module('models.archs.{}'.format(config.network))
         self.PVDNet = lib.Network(config.PV_ksize ** 2)
@@ -270,7 +266,12 @@ class DeblurNet(nn.Module):
                 torch.nn.init.constant_(m.bias, 0)
 
     def init(self):
-        print(self.BIMNet.load_state_dict(torch.load('./ckpt/liteFlowNet_image_partial_00120.pytorch')))
+        print('\t\t', self.BIMNet.load_state_dict(torch.load('./ckpt/liteFlowNet_image_partial_00120.pytorch')))
+        if self.config.fix_BIMNet:
+            if self.rank <= 0: print(toRed('\t\tBIMNet fixed'))
+            for param in self.BIMNet.parameters():
+                param.requires_grad_(False)
+
         self.PVDNet.apply(self.weights_init)
 
     def input_constructor(self, res):
@@ -330,7 +331,4 @@ class DeblurNet(nn.Module):
                 outs['warped_ss_mask'] = warp(torch.ones_like(gt_prev), w_ss)
 
         elif is_train and self.config.fix_BIMNet and self.config.save_sample:
-            outs['warped_bb'] = warp(norm(gt_prev), w_bb)
-
-        return outs
-
+            outs['warped_bb'] = warp(n
