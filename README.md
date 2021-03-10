@@ -86,11 +86,12 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
     * `-ss`: whether to save sample images (samples can be found in `./logs/PVDNet_TOG2021/samples`, *default:* `False`).
 
 ### Testing
+Specify `--mode` to be tested. `--config` doesn't have to be specified, as it will be automatically loaded from log folder according to `--mode`.
+
 ```bash
 python run.py --mode [MODE] --data [DATASET]
 # e.g., python run.py --mode PVDNet_DVD --data DVD
 ```
-*Do not specify `config`. Configs will be automatically loaded from according to `mode`.*
 
 * options
     * `--mode`: The name of the training mode that you want to test.
