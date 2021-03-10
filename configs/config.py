@@ -75,7 +75,7 @@ def get_config(project = '', mode = '', config_ = '', data = '', LRS = '', batch
     ##################################### EVAL ######################################
     config.EVAL = edict()
     config.EVAL.eval_mode = 'quan'
-    config.EVAL.data = 'nah' 
+    config.EVAL.data = 'nah'
 
     config.EVAL.load_ckpt_by_score = True
     config.EVAL.ckpt_name = None
@@ -98,11 +98,11 @@ def get_config(project = '', mode = '', config_ = '', data = '', LRS = '', batch
 def set_train_path(config, data):
     if data == 'DVD':
         config.data_path = os.path.join(config.data_offset, 'train_DVD')
-        config.input_path = 'input' 
+        config.input_path = 'input'
         config.gt_path = 'GT'
 
         config.VAL.data_path = os.path.join(config.data_offset, 'test_DVD')
-        config.VAL.input_path = 'input' 
+        config.VAL.input_path = 'input'
         config.VAL.gt_path = 'GT'
 
     elif data == 'nah':
@@ -119,7 +119,7 @@ def set_train_path(config, data):
 def set_eval_path(config, data):
     if data == 'DVD':
         config.EVAL.data_path = os.path.join(config.data_offset, 'test_DVD')
-        config.EVAL.input_path = 'input' 
+        config.EVAL.input_path = 'input'
         config.EVAL.gt_path = 'GT'
 
     elif data == 'nah':

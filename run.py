@@ -101,6 +101,7 @@ class Trainer():
                                 print_logs(state.upper() + ' TOTAL', self.config.mode, epoch, self.max_epoch, epoch_time, iter = self.model.itr_global[state], iter_total = self.config.total_itr, errs = self.err_epoch[state], lr = self.lr, is_overwrite = False)
                             else:
                                 print_logs(state.upper() + ' TOTAL', self.config.mode, epoch, self.max_epoch, epoch_time, errs = self.err_epoch[state], lr = self.lr, is_overwrite = False)
+                                print('\n')
 
                             if state == 'valid':
                                 is_saved = False

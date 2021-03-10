@@ -33,7 +33,7 @@ def get_config(project = '', mode = '', config = '', data = '', LRS = '', batch_
     ## training schedule
     if config.data == 'nah':
         total_frame_num = int(6309/3)
-        video_num = 22 
+        video_num = 22
     elif config.data == 'DVD':
         total_frame_num = int(11416/2)
         video_num = 61

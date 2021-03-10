@@ -40,7 +40,6 @@ class Model(baseModel):
 
         ### PROFILE ###
         if self.rank <= 0:
-            print(toGreen('Computing model complexity...'))
             with torch.no_grad():
                 Macs,params = get_model_complexity_info(self.network, (1, 3, 720, 1280), input_constructor = self.network.input_constructor, as_strings=False,print_per_layer_stat=config.is_verbose)
 
@@ -65,6 +64,7 @@ class Model(baseModel):
             self.network = DP(self.network).to(torch.device('cuda'))
 
         if self.rank <= 0:
+            print(toGreen('Computing model complexity...'))
             print('{:<30}  {:<8} B'.format('Computational complexity (Macs): ', Macs / 1000 ** 3 ))
             print('{:<30}  {:<8} M'.format('Number of parameters: ',params / 1000 ** 2))
             if self.is_train:
@@ -268,7 +268,7 @@ class DeblurNet(nn.Module):
 
     def init(self):
         if self.config.fix_BIMNet:
-            print('\t\t', self.BIMNet.load_state_dict(torch.load('./ckpt/BIMNet.pytorch')))
+            print('\t\tBIMNet loaded: ', self.BIMNet.load_state_dict(torch.load('./ckpt/BIMNet.pytorch')))
             if self.rank <= 0: print(toRed('\t\tBIMNet fixed'))
             for param in self.BIMNet.parameters():
                 param.requires_grad_(False)
