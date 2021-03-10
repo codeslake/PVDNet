@@ -40,9 +40,11 @@ All material related to our paper is available by following links:
 ## Training & testing of the network
 *Requirements*: `pip install -r requirements.txt`
 ### Training
-> Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal* dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (the offset can be modified by `config.data_offset` in `./configs/config.py`).
+> Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` 
 >
-> Folder structure for Su *etal*'s dataset: `./datasets/train_DVD`. For Nah *etal* dataset:  `./datasets/train_nah`.
+> Folder structure for Su *etal*'s dataset: `./datasets/train_DVD`. For Nah *etal*'s dataset:  `./datasets/train_nah`.
+
+> *The offset path for the datasets can be specified by modifying `config.data_offset` in `./configs/config.py`*
 
 ```bash
 # multi GPU (with DistributedDataParallel) example
@@ -82,11 +84,16 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
     * `-th`: The number of thread (`num_workers`) used for the data loader (defined in `./models/baseModel`, *default:* batch size).
     * `-dl`: The option whether to delete logs under `mode` (i.e., `./logs/PVDNet_TOG2021/[mode]/*`). Option works only when `--is_train` is specified (*default:* `False`).
     * `-r`: Resume training with specified epoch # (e.g., `-r 100`). Note that `-dl` should not be specified with this option.
+    * `-ss`: Save sample images for both training and testing. Images will be saved in `./logs/PVDNet_TOG2021/[mode]/sample`.
     * `-dist`: whether to use `DistributedDataParallel` (*default:* `False`).
-    * `-ss`: whether to save sample images (samples can be found in `./logs/PVDNet_TOG2021/samples`, *default:* `False`).
+* logs
+    * *The root offset of logs is `./logs`. It can be changed by `config.log_offset` in `./config/config.py`.*
+    * In `./logs/Defocus_Deblurring/[mode]/`, checkpoints, resume states, config, scalar logs for tensorboard and testing results will be saved.
+    * Currently, logs will be saved for every 4 epochs, which can be reset by `config.write_ckpt_every_epoch` in `./config/config.py`.
+
 
 ### Testing
->Specify `--mode` to test. `--config` doesn't have to be specified, as it will be automatically loaded from the log folder according to `--mode`.
+> Specify `--mode` to test. `--config` doesn't have to be specified, as it will be automatically loaded from the log folder according to `--mode`.
 
 ```bash
 python run.py --mode [MODE] --data [DATASET]
@@ -105,8 +112,8 @@ python run.py --mode [MODE] --data [DATASET]
 > Download pretrained weights from [here TODO](). Then, unzip them under `./ckpt`.
 >
 > Download and unzip [Su *etal*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *etal*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (the offset can be modified by `config.data_offset` in `./configs/config.py`).
->
-> Folder structure for Su *etal*'s dataset: `./datasets/test_DVD`. For Nah *etal* dataset: `./datasets/test_nah`.
+
+> Folder structure for Su *etal*'s dataset should be `./datasets/test_DVD`, and for Nah *etal* dataset, `./datasets/test_nah`.
 
 To test the final model:
 
