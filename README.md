@@ -90,6 +90,8 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
 python run.py --mode [MODE] --data [DATASET]
 # e.g., python run.py --mode PVDNet_DVD --data DVD
 ```
+*Do not specify `config`. Configs will be automatically loaded from according to `mode`.*
+
 * options
     * `--mode`: The name of the training mode that you want to test.
     * `--data`: The name of a dataset for evaluation. We have `DVD, nah and any`, and their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`.
