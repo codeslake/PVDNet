@@ -47,28 +47,28 @@ All material related to our paper is available by following links:
 ```bash
 # multi GPU (with DistributedDataParallel) example
 CUDA_VISIBLE_DEVICES=0,1,2,3 python -B -m torch.distributed.launch --nproc_per_node=4 --master_port=9000 run.py \
---is_train \
---mode PVDNet_DVD \
---config config_PVDNet \
---trainer trainer \
---data DVD \
--LRS CA \
--b 2 \
--th 8 \
--dl \
--dist
+            --is_train \
+            --mode PVDNet_DVD \
+            --config config_PVDNet \
+            --trainer trainer \
+            --data DVD \
+            -LRS CA \
+            -b 2 \
+            -th 8 \
+            -dl \
+            -dist
 
 # single GPU (with DataParallel) example
 CUDA_VISIBLE_DEVICES=0 python -B run.py \
---is_train \
---mode PVDNet_DVD \
---config config_PVDNet \
---trainer trainer \
---data DVD \
--LRS CA \
--b 8 \
--th 8 \
--dl
+            --is_train \
+            --mode PVDNet_DVD \
+            --config config_PVDNet \
+            --trainer trainer \
+            --data DVD \
+            -LRS CA \
+            -b 8 \
+            -th 8 \
+            -dl
 ```
 * options
     * `--is_train`: If it is specified, `run.py` will train the network (*default:* `False`).  
@@ -107,17 +107,18 @@ python run.py --mode [MODE] --data [DATASET]
 
 To test the final model:
 
-    ```bash
-    ## Table 4 in the main paper (Evaluation on Su <i>etal</i>'s dataset)
-    # Our final model 
-    python run.py --mode PVDNet_DVD --config config_PVDNet --data DVD --ckpt_abs_name ckpt/PVDNet_DVD.pytorch
-    
-    ## Table 5 in the main paper (Evaluation on Nah <i>etal</i>'s dataset)
-    # Small model on Nah <i>etal</i>'s dataset
-    python run.py --mode PVDNet_nah --config config_PVDNet --data nah --ckpt_abs_name ckpt/PVDNet_nah.pytorch
-    # Large model
-    python run.py --mode PVDNet_nah --config config_PVDNet_large --data nah --ckpt_abs_name ckpt/PVDNet_large_nah.pytorch
-    ```
+```bash
+## Table 4 in the main paper (Evaluation on Su etal's dataset)
+# Our final model 
+python run.py --mode PVDNet_DVD --config config_PVDNet --data DVD --ckpt_abs_name ckpt/PVDNet_DVD.pytorch
+
+## Table 5 in the main paper (Evaluation on Nah etal's dataset)
+# Our final model 
+python run.py --mode PVDNet_nah --config config_PVDNet --data nah --ckpt_abs_name ckpt/PVDNet_nah.pytorch
+
+# Larger model
+python run.py --mode PVDNet_nah --config config_PVDNet_large --data nah --ckpt_abs_name ckpt/PVDNet_large_nah.pytorch
+```
 
 * options
     * `--data`: The name of a dataset for evaluation. We have `DVD, nah` and `any`, where their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`. `--data any` is for testing models with any images, which should be placed under the folder `./datasets/any`. 

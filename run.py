@@ -62,7 +62,7 @@ class Trainer():
 
     def train(self):
         torch.backends.cudnn.benchmark = True
-        if self.rank <= 0 : print(toYellow('======== TRAINING START ========='))
+        if self.rank <= 0 : print(toYellow('\n\n=========== TRAINING START ============'))
         for epoch in self.epoch_range:
             if self.rank <= 0 and epoch == 1:
                 if self.config.resume is None:
@@ -101,7 +101,6 @@ class Trainer():
                                 print_logs(state.upper() + ' TOTAL', self.config.mode, epoch, self.max_epoch, epoch_time, iter = self.model.itr_global[state], iter_total = self.config.total_itr, errs = self.err_epoch[state], lr = self.lr, is_overwrite = False)
                             else:
                                 print_logs(state.upper() + ' TOTAL', self.config.mode, epoch, self.max_epoch, epoch_time, errs = self.err_epoch[state], lr = self.lr, is_overwrite = False)
-                            print('\n\n')
 
                             if state == 'valid':
                                 is_saved = False
