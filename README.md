@@ -113,7 +113,7 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
     * `-ss`: Save sample images for both training and testing. Images will be saved in `./logs/PVDNet_TOG2021/[mode]/sample/` (*default:* `False`).
     * `-dist`: whether to use `DistributedDataParallel` (*default:* `False`).
 * logs
-    * *The root offset of logs is `./logs`. It can be changed by `config.log_offset` in `./config/config.py`.*
+    * *The root offset of logs is currently set to `./logs`. It can be changed by `config.log_offset` in `./config/config.py`.*
     * In `./logs/Defocus_Deblurring/[mode]/`, checkpoints, resume states, config, scalar logs for tensorboard and testing results will be saved.
     * Currently, logs will be saved for every 4 epochs, which can be reset by `config.write_ckpt_every_epoch` in `./config/config.py`.
 
