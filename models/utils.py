@@ -30,9 +30,6 @@ def get_psnr2(img1, img2, PIXEL_MAX=1.0):
     return 10 * torch.log10(PIXEL_MAX / mse_)
 
     # return calculate_psnr(img1, img2)
-    
-def norm(inp):
-    return (inp + 1.) / 2.
 
 Backward_tensorGrid = {}
 def warp(tensorInput, tensorFlow):

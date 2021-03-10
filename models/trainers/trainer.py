@@ -189,7 +189,7 @@ class Model(baseModel):
                     errs['flow'] = (err_bb + err_bs + err_sb + err_ss) / 4.
                     errs['total'] = errs['total'] + errs['flow']
             else:
-                errs['psnr'] = get_psnr2(outs['result'], gt_curr)
+                errs['psnr'] = get_psnr2(norm(outs['result']), norm(gt_curr))
 
             return errs, outs
         else:

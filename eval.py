@@ -16,11 +16,10 @@ from skimage.metrics import structural_similarity
 import collections
 
 from utils import *
-from data_loader.utils import refine_image, read_frame, load_file_list
+from data_loader.utils import refine_image, read_frame, load_file_list, norm
 from ckpt_manager import CKPT_Manager
 
 from models import create_model
-import models.archs.LPIPS as LPIPS
 
 def mae(img1, img2):
     mae_0=mean_absolute_error(img1[:,:,0], img2[:,:,0],
@@ -104,33 +103,25 @@ def eval_quan_qual(config):
 
             ## prepare input tensors
 
-            if 'STFAN' in config.mode:
-                index = np.array(list(range(j - 1, j + 1))).clip(min=0, max=len(frame_list)-1)
-                Is = torch.cat([torch.FloatTensor(frame_list[k]).cuda() for k in index], dim = 1)
-            else:
-                index = np.array(list(range(j - config.past_frames, j + config.future_frames + 1))).clip(min=0, max=len(frame_list)-1)
-                Is = torch.cat([torch.FloatTensor(frame_list[k]).cuda() for k in index], dim = 1) if j == 0 else torch.FloatTensor(frame_list[index[-1]]).cuda()
+            index = np.array(list(range(j - 1, j + 2))).clip(min=0, max=len(frame_list)-1)
+            Is = torch.cat([torch.FloatTensor(frame_list[k]).cuda() for k in index], dim = 1)
             I_center = torch.FloatTensor(frame_list[j][0]).cuda()
 
             #######################################################################
             ## run network
             with torch.no_grad():
-                if 'STFAN' in config.mode:
-                    if j == 0:
-                        output_last_img = Is[:, 0, :, :, :]
-                        output_last_fea = None
+                if j == 0:
+                    I_prev_deblurred = Is[:, 0, :, :, :]
 
-                    last_img_blur = Is[:, 0, :, :, :]
-                    img_blur = Is[:, 1, :, :, :]
-                    torch.cuda.synchronize()
-                    init_time = time.time()
-                    out = network.module.Network.forward(img_blur, last_img_blur, output_last_img, output_last_fea)
-                    output_last_img = out['result']
-                    output_last_fea = out['result_fea']
-                else:
-                    torch.cuda.synchronize()
-                    init_time = time.time()
-                    out = network.module.Network.forward_eval(Is)
+                I_prev = Is[:, 0, :, :, :]
+                I_curr = Is[:, 1, :, :, :]
+                I_next = Is[:, 2, :, :, :]
+
+                torch.cuda.synchronize()
+                init_time = time.time()
+                out = network(I_prev, I_curr, I_next, I_prev_deblurred)
+                I_prev_deblurred = out['result']
+
                 torch.cuda.synchronize()
                 itr_time = time.time() - init_time
                 total_itr_time_video = total_itr_time_video + itr_time
@@ -138,9 +129,9 @@ def eval_quan_qual(config):
             #######################################################################
 
             ## evaluation
-            inp = I_center
-            gt = torch.FloatTensor(frame_list_gt[j][0]).cuda()
-            output = out['result']
+            inp = norm(I_center)
+            gt = norm(torch.FloatTensor(frame_list_gt[j][0]).cuda())
+            output = norm(out['result'])
 
             # quantitative
             output_cpu = output.cpu().numpy()[0].transpose(1, 2, 0)

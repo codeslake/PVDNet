@@ -45,6 +45,9 @@ def crop_multi(x, hrg, wrg, is_random=False, row_index=0, col_index=1):
             results.append(data[int(h_offset):int(h - h_offset), int(w_offset):int(w - w_offset)])
         return np.asarray(results)
 
+def norm(inp):
+    return (inp + 1.) / 2.
+
 def color_to_gray(img):
     c_linear = 0.2126*img[:, :, 0] + 0.7152*img[:, :, 1] + 0.07228*img[:, :, 2]
     c_linear_temp = c_linear.copy()

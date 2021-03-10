@@ -212,7 +212,7 @@ def init_dist(backend='nccl', **kwargs):
     dist.init_process_group(backend=backend, **kwargs)
 
 if __name__ == '__main__':
-    project = 'Video_deblurring_TOG2021_github'
+    project = 'PVDNet_TOG2021'
     mode = 'fix_BIMNet'
 
     from configs.config import set_train_path
@@ -241,6 +241,7 @@ if __name__ == '__main__':
         parser.add_argument('-th', '--thread_num', type = int, default = config.thread_num, help = 'number of thread')
         parser.add_argument('-dist', '--dist', action = 'store_true', default = config.dist, help = 'whether to distributed pytorch')
         parser.add_argument('-data', '--data', type=str, default = 'nah', help = 'dataset to train')
+        parser.add_argument('-LRS', '--learning_rate_scheduler', type=str, default = 'CA', help = 'learning rate scheduler to use [LD or CA]')
         parser.add_argument('-vs', '--is_verbose', action = 'store_true', default = False, help = 'whether to delete log')
         parser.add_argument('-ss', '--save_sample', action = 'store_true', default = False, help = 'whether to save_sample')
         parser.add_argument("--local_rank", type=int)
@@ -263,6 +264,7 @@ if __name__ == '__main__':
         config.thread_num = args.thread_num
         config.dist = args.dist
         config.data = args.data
+        config.LRS = args.learning_rate_scheduler
         config.is_verbose = args.is_verbose
         config.save_sample = args.save_sample
 
