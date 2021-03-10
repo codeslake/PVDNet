@@ -222,7 +222,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--is_train', action = 'store_true', default = False, help = 'whether to delete log')
-    parser.add_argument('--config', type = str, default = 'config_PVDNet', help = 'config name')
+    parser.add_argument('--config', type = str, default = None, help = 'config name')
     parser.add_argument('--mode', type = str, default = mode, help = 'mode name')
     parser.add_argument('--project', type = str, default = project, help = 'project name')
     parser.add_argument('-data', '--data', type=str, default = 'DVD', help = 'dataset to train')

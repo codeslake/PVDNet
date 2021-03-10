@@ -73,7 +73,7 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
 * options
     * `--is_train`: If it is specified, `run.py` will train the network (*default:* `False`).  
     * `--mode`: The name of training mode. The logging folder named with the `mode` will be created under `./logs/PVDNet_TOG2021/[mode]` (*default:* `PVDNet_DVD`). 
-    * `--config`: The name of config file located as in `./config/[config].py` (`config_PVDNet`.py is used for our final model. `config_joint`.py is for jointly training of BIMNet and PVDNet, *default:* `config_PVDNet_DVD`).
+    * `--config`: The name of config file located as in `./config/[config].py` (`config_PVDNet`.py is used for our final model. `config_joint`.py is for jointly training of BIMNet and PVDNet, *default:* `None`).
     * `--trainer`: The name of trainer file located as in `./models/trainers/[trainer].py` (*default:* `trainer`).
     * `--data`: The name of dataset (`DVD` or `nah`, *default:* `DVD`).
     * `-LRS`: Learning rate scheduler for training (`CA`:Cosine annealing scheduler or `LD`:for step decay scheduler, *default:* `CA`).
