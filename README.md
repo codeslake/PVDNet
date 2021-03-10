@@ -86,7 +86,7 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
     * `-ss`: whether to save sample images (samples can be found in `./logs/PVDNet_TOG2021/samples`, *default:* `False`).
 
 ### Testing
-Specify `--mode` to be tested. `--config` doesn't have to be specified, as it will be automatically loaded from log folder according to `--mode`.
+>Specify `--mode` to test. `--config` doesn't have to be specified, as it will be automatically loaded from the log folder according to `--mode`.
 
 ```bash
 python run.py --mode [MODE] --data [DATASET]

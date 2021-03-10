@@ -145,7 +145,10 @@ class Model(baseModel):
 
         return lr
 
+    ######################################################################################################
     ########################### Edit from here for training/testing scheme ###############################
+    ######################################################################################################
+
     def _set_results(self, inputs, outs, errs, norm_, lr, is_train):
         ## save visuals (inputs)
         if self.rank <=0 and self.config.save_sample:
@@ -280,15 +283,12 @@ class DeblurNet(nn.Module):
     def input_constructor(self, res):
         b, c, h, w = res[:]
 
-        frame_num = self.config.frame_num
         img = torch.FloatTensor(np.random.randn(b, c, h, w)).cuda()
 
         return {'I_prev': img, 'I_curr': img, 'I_next': img, 'I_prev_deblurred': img}
 
     #####################################################
     def forward(self, I_prev, I_curr, I_next, I_prev_deblurred, gt_prev=None, gt_curr=None, is_train=False):
-        is_reblur = 'reblur' in self.config.mode and (is_train or self.config.save_sample)
-
         _, _, h, w = I_curr.size()
 
         refine_h = h - h % 32
@@ -301,7 +301,7 @@ class DeblurNet(nn.Module):
         w_bb = upsample(self.BIMNet(norm(I_curr_refined ), norm(I_prev_refined )), refine_h, refine_w)
         if refine_h != h or refine_w != w:
             w_bb = F.pad(w_bb,(0, w - refine_w, 0, h - refine_h, 0, 0, 0, 0))
-         
+
         ## PVDNet
         outs['PV'] = get_pixel_volume(I_prev_deblurred, w_bb, I_curr, h, w) # C: 5 X 5 (gray) X 3 (color)
         outs['result'] = self.PVDNet(outs['PV'], I_prev, I_curr, I_next)
