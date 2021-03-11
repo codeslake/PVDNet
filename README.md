@@ -76,9 +76,9 @@ Our pixel volume approach leads to the performance improvement of video deblurri
     │   ├── PVDNet_large_nah.pytorch
     ```
 * Logs
-    * *`[LOG_ROOT]` is currently set to `./logs`. It can be changed by `config.log_offset` in `./config/config.py`.*
     * In `[LOG_ROOT]/Defocus_Deblurring/[mode]/`, checkpoints, resume states, config, scalar logs for tensorboard and testing results will be saved.
-    * Currently, logs will be saved for every 4 epochs, which can be reset by `config.write_ckpt_every_epoch` in `./config/config.py`.
+    > *`[LOG_ROOT]` is currently set to `./logs`. It can be changed by `config.log_offset` in `./config/config.py`.*
+    > *Currently, logs will be saved for every 4 epochs, which can be reset by `config.write_ckpt_every_epoch` in `./config/config.py`.*
 
 ## Testing models of TOG2021
 * To test the final model,
