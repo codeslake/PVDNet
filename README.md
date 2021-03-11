@@ -15,7 +15,7 @@ This repository contains the official PyTorch implementation of the following pa
 
 ## Overall Framework
 <p align="center">
-  <img width=60% src="./assets/framework.jpg" />
+  <img width=50% src="./assets/framework.jpg" />
 </p>
 
 Our video deblurring framework consists of three modules: a blur-invariant motion estimation network (*BIMNet*), a pixel volume generator, and a pixel volume-based deblurring network (*PVDNet*).
@@ -43,7 +43,7 @@ We propose a novel pixel volume that provides multiple candidates for matching p
 Moreover, a pixel volume provides an additional cue for motion compensation based on the majority.
 
 <p align="center">
-  <img width=40% src="./assets/PV.jpg" />
+  <img width=60% src="./assets/PV.jpg" />
 </p>
 
 Our pixel volume approach leads to the performance improvement of video deblurring by utilizing the multiple candidates in a pixel volume in two aspects: 1) in most cases, the majority cue for the correct match would help as the statistics (Sec. 4.4 in the main paper) shows, and 2) in other cases, *PVDNet* would exploit multiple candidates to estimate the correct match referring to nearby pixels with majority cues.
