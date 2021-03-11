@@ -66,7 +66,7 @@ Our pixel volume approach leads to the performance improvement of video deblurri
 * Pre-trained models
     Download pretrained weights from [here](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=0). Then, unzip them under `./ckpt/`.
     ```
-    ├── ckpt
+    ├── ./ckpt
     │   ├── BIMNet.pytorch
     │   ├── PVDNet_DVD.pytorch
     │   ├── PVDNet_nah.pytorch

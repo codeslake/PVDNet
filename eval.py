@@ -130,18 +130,22 @@ def eval_quan_qual(config):
 
             ## evaluation
             inp = norm(I_center)
-            gt = norm(torch.FloatTensor(frame_list_gt[j][0]).cuda())
             output = norm(out['result'])
 
-            # quantitative
-            output_cpu = output.cpu().numpy()[0].transpose(1, 2, 0)
-            gt_cpu = gt.cpu().numpy()[0].transpose(1, 2, 0)
+            PSNR = 0 
+            SSIM = 0 
+            if gt_file_path_list is not None:
+                gt = norm(torch.FloatTensor(frame_list_gt[j][0]).cuda())
 
-            PSNR = psnr(output_cpu, gt_cpu)
-            SSIM = ssim(output_cpu, gt_cpu)
+                # quantitative
+                output_cpu = output.cpu().numpy()[0].transpose(1, 2, 0)
+                gt_cpu = gt.cpu().numpy()[0].transpose(1, 2, 0)
 
-            PSNR_mean += PSNR
-            SSIM_mean += SSIM
+                PSNR = psnr(output_cpu, gt_cpu)
+                SSIM = ssim(output_cpu, gt_cpu)
+
+                PSNR_mean += PSNR
+                SSIM_mean += SSIM
 
             frame_name = os.path.basename(blur_file_path_list[i][j])
             print('[EVAL {}|{}|{}][{}/{}][{}/{}] {} PSNR: {:.5f}, SSIM: {:.5f} ({:.5f}sec)'.format(config.mode, config.EVAL.data, video_name, i + 1, len(blur_file_path_list), j + 1, len(frame_list), frame_name, PSNR, SSIM, itr_time))
