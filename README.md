@@ -137,41 +137,41 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
 ```
 * options
     * `--is_train`: If it is specified, `run.py` will train the network (*default:* `False`).  
-    * `--mode`: The name of a model to train. The logging folder named with the `mode` will be created as `./logs/PVDNet_TOG2021/[mode]/` (*default:* `PVDNet_DVD`). 
+    * `--mode`: The name of a model to train. The logging folder named with the `[mode]` will be created as `[LOG_ROOT]/PVDNet_TOG2021/[mode]/` (*default:* `PVDNet_DVD`). 
     * `--config`: The name of config file located as in `./config/[config].py` (`config_PVDNet`.py is used for our final model. `config_joint`.py is for jointly training of BIMNet and PVDNet, *default:* `None`).
     * `--trainer`: The name of trainer file located as in `./models/trainers/[trainer].py` (*default:* `trainer`).
     * `--data`: The name of dataset (`DVD` or `nah`, *default:* `DVD`).
     * `-LRS`: Learning rate scheduler for training (`CA`:Cosine annealing scheduler or `LD`:for step decay scheduler, *default:* `CA`).
     * `--network`: The name of network file (of PVDNet) located as in `./models/archs/[network].py` (*default:* `PVDNet`).
-    * `-b`: The batch size. For the multi GPU (`DistributedDataParallel`), the total batch size will be, `nproc_per_node * b` (*default:* 8).
-    * `-th`: The number of thread (`num_workers`) used for the data loader (*default:* batch size).
-    * `-dl`: The option whether to delete logs under `mode` (i.e., `./logs/PVDNet_TOG2021/[mode]/*`). Option works only when `--is_train` is specified (*default:* `False`).
-    * `-r`: Resume training with specified epoch # (e.g., `-r 100`). Note that `-dl` should not be specified with this option.
-    * `-ss`: Save sample images for both training and testing. Images will be saved in `./logs/PVDNet_TOG2021/[mode]/sample/` (*default:* `False`).
+    * `-b`, `--batch_size`: The batch size. For the multi GPU (`DistributedDataParallel`), the total batch size will be, `nproc_per_node * b` (*default:* 8).
+    * `-th`, `--thread_num`: The number of thread (`num_workers`) used for the data loader (*default:* batch size).
+    * `-dl`, `--delete_log`: The option whether to delete logs under `[mode]` (i.e., `[LOG_ROOT]/PVDNet_TOG2021/[mode]/*`). Option works only when `--is_train` is specified (*default:* `False`).
+    * `-r`, `--resume`: Resume training with specified epoch # (e.g., `-r 100`). Note that `-dl` should not be specified with this option.
+    * `-ss`, `--save_sample`: Save sample images for both training and testing. Images will be saved in `[LOG_ROOT]/PVDNet_TOG2021/[mode]/sample/` (*default:* `False`).
     * `-dist`: whether to use `DistributedDataParallel` (*default:* `False`).
 * logs
-    * *The root offset of logs is currently set to `./logs`. It can be changed by `config.log_offset` in `./config/config.py`.*
-    * In `./logs/Defocus_Deblurring/[mode]/`, checkpoints, resume states, config, scalar logs for tensorboard and testing results will be saved.
+    * *`[LOG_ROOT]` is currently set to `./logs`. It can be changed by `config.log_offset` in `./config/config.py`.*
+    * In `[LOG_ROOT]/Defocus_Deblurring/[mode]/`, checkpoints, resume states, config, scalar logs for tensorboard and testing results will be saved.
     * Currently, logs will be saved for every 4 epochs, which can be reset by `config.write_ckpt_every_epoch` in `./config/config.py`.
 
 
 ### Testing
-> To test the trained model, specify `--mode` of the model. `--config` doesn't have to be specified, as it will be automatically loaded from the log folder according to the specified `--mode`.
+> To test the trained model, specify `[mode]` of the model. `[config]` doesn't have to be specified, as it will be automatically loaded from the log folder according to the specified `[mode]`.
 
 ```shell
-python run.py --mode [MODE] --data [DATASET]
+python run.py --mode [mode] --data [DATASET]
 # e.g., python run.py --mode PVDNet_DVD --data DVD
 ```
 
 * options
     * `--mode`: The name of a model to test.
     * `--data`: The name of a dataset for evaluation. We have `DVD, nah and any`, and their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`.
-    * `-ckpt_name`: Load the checkpoint with the name of the checkpoint under `./logs/PVDNet_TOG2021/[mode]/checkpoint/train/epoch/ckpt/` (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_name PVDNet_DVD_00000.pytorch`).
+    * `-ckpt_name`: Load the checkpoint with the name of the checkpoint under `[LOG_ROOT]/PVDNet_TOG2021/[mode]/checkpoint/train/epoch/ckpt/` (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_name PVDNet_DVD_00000.pytorch`).
     * `-ckpt_abs_name`. Loads the checkpoint of the absolute path (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_abs_name ./ckpt/PVDNet_DVD.pytorch`).
     * `-ckpt_epoch`: Loads the checkpoint of the specified epoch (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_epoch 0`). 
     * `-ckpt_sc`: Loads the checkpoint with the best validation score (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_sc`)    
 * results
-    * Testing results will be saved in `./logs/PVDNet_TOG2021/[mode]/result/quanti_quali/[mode]_[epoch]/[data]/`.
+    * Testing results will be saved in `[LOG_ROOT]/PVDNet_TOG2021/[mode]/result/quanti_quali/[mode]_[epoch]/[data]/`.
 
 
 ## Citation
