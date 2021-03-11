@@ -10,12 +10,20 @@ This repository contains the official PyTorch implementation of the following pa
 > Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, Seungyong Lee, TOG 2021
 
 <p align="center">
-  <img width=70% src="./assets/framework.jpg" />
+   <img src="./assets/network.jpg" />
 </p>
 
-## *BIMNet*
+## Overall Framework
+<p align="center">
+  <img width=60% src="./assets/framework.jpg" />
+</p>
+
+Our video deblurring framework consists of three modules: a blur-invariant motion estimation network (*BIMNet*), a pixel volume generator, and a pixel volume-based deblurring network (*PVDNet*).
+We first train *BIMNet*; after it has converged, we combine the two networks with the pixel volume generator.
+We then fix the parameters of *BIMNet* and train *PVDNet* by training the entire network.
+
+## Blur-Invariant Motion Estimation Network (*BIMNet*)
 To estimate motion between frames accurately, we adopt [LiteFlowNet](https://arxiv.org/pdf/1805.07036.pdf) and train it with a blur-invariant loss so that the trained network can estimate blur-invariant optical flow between frames.
-We refer the resulting network as a blur-invariant motion estima-tion network (*BIMNet*).
 We train *BIMNet* with ablur-invariant loss <img src="https://latex.codecogs.com/svg.latex?L_{BIM}^{\alpha\beta}" />, which is defined as (refer Eq. 1 in the main paper):
 
 <p align="center">
@@ -30,7 +38,7 @@ The figure shows a qualitative comparison of different optical flow methods.
 The results of the other methods contain severely distorted structures due to errors in their optical flow maps.
 In contrast, the results of BIMNets show much less distortions.
 
-## Pixel Volume
+## Pixel Volume for Motion Compensation
 We propose a novel pixel volume that provides multiple candidates for matching pixels between images.
 Moreover, a pixel volume provides an additional cue for motion compensation based on the majority.
 
