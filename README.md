@@ -75,7 +75,7 @@ Our pixel volume approach leads to the performance improvement of video deblurri
 
 ## Testing models of TOG2021
 * To test the final model,
-    ```zsh
+    ```console
     ## Table 4 in the main paper (Evaluation on Su etal's dataset)
     # Our final model 
     python run.py --mode PVDNet_DVD --config config_PVDNet --data DVD --ckpt_abs_name ckpt/PVDNet_DVD.pytorch
@@ -93,7 +93,7 @@ Our pixel volume approach leads to the performance improvement of video deblurri
 
 ## Training & testing the network
 ### Training
-```zsh
+```console
 # multi GPU (with DistributedDataParallel) example
 CUDA_VISIBLE_DEVICES=0,1,2,3 python -B -m torch.distributed.launch --nproc_per_node=4 --master_port=9000 run.py \
             --is_train \
@@ -158,7 +158,7 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
 ### Testing
 > To test the trained model, specify `--mode` of the model. `--config` doesn't have to be specified, as it will be automatically loaded from the log folder according to the specified `--mode`.
 
-```zsh
+```console
 python run.py --mode [MODE] --data [DATASET]
 # e.g., python run.py --mode PVDNet_DVD --data DVD
 ```
