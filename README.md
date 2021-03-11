@@ -50,9 +50,11 @@ Our pixel volume approach leads to the performance improvement of video deblurri
 
 ## Prerequisites
 * Requirements
+
     `pip install -r requirements.txt`
 
 * Datasets
+
     Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `[DATASET_ROOT]` as following data structure:
     ```
     ├── [DATASET_ROOT]
@@ -64,6 +66,7 @@ Our pixel volume approach leads to the performance improvement of video deblurri
     > *`[DATASET_ROOT]` is currently set to `./datasets`. It can be specified by modifying `config.data_offset` in `./configs/config.py`.*
 
 * Pre-trained models
+
     Download pretrained weights from [here](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=0). Then, unzip them under `./ckpt/`.
     ```
     ├── ./ckpt
