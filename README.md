@@ -74,7 +74,7 @@ Our pixel volume approach leads to the performance improvement of video deblurri
     ``` 
 
 ## Testing models of TOG2021
-    To test the final model,
+* To test the final model,
     ```bash
     ## Table 4 in the main paper (Evaluation on Su etal's dataset)
     # Our final model 
