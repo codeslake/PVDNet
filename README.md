@@ -10,7 +10,7 @@ This repository contains the official PyTorch implementation of the following pa
 > Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, Seungyong Lee, TOG 2021
 
 <p align="center">
-  <img width=95% src="./assets/network.jpg" />
+  <img width=40% src="./assets/framework.jpg" />
 </p>
 
 ## *BIMNet*
