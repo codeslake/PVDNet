@@ -126,9 +126,8 @@ def set_eval_path(config, data):
         config.EVAL.data_path = os.path.join(config.data_offset, 'test_nah')
         config.EVAL.input_path = 'blur_gamma' # os.path.join(config.VAL.data_path, 'input')
         config.EVAL.gt_path = 'sharp' # os.path.join(config.VAL.data_path, 'gt')
-    elif data == 'any':
-        config.EVAL.data_path = os.path.join(config.data_offset, 'any')
-        # config.EVAL.input_path = 'input' # os.path.join(config.VAL.data_path, 'input')
+    elif data == 'random':
+        config.EVAL.data_path = os.path.join(config.data_offset, 'random')
 
     return config
 

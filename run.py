@@ -225,7 +225,7 @@ if __name__ == '__main__':
     parser.add_argument('--config', type = str, default = None, help = 'config name') # do not change the default value
     parser.add_argument('--mode', type = str, default = mode, help = 'mode name')
     parser.add_argument('--project', type = str, default = project, help = 'project name')
-    parser.add_argument('-data', '--data', type=str, default = 'DVD', help = 'dataset to train')
+    parser.add_argument('-data', '--data', type=str, default = 'DVD', help = 'dataset to train (DVD|nah) or test (DVD|nah|random)')
     parser.add_argument('-LRS', '--learning_rate_scheduler', type=str, default = 'CA', help = 'learning rate scheduler to use [LD or CA]')
     parser.add_argument('-b', '--batch_size', type = int, default = 8, help = 'number of batch')
     args, _ = parser.parse_known_args()

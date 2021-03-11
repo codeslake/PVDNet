@@ -207,8 +207,8 @@ class Model(baseModel):
         self.itr_global[state] += self.itr_inc[state]
 
         # prepare data
-        Is = inputs['input'].to(torch.device('cuda'))
-        GTs = inputs['gt'].to(torch.device('cuda'))
+        Is = refine_image_pt(inputs['input'].to(torch.device('cuda')), self.config.refine_val)
+        GTs = refine_image_pt(inputs['gt'].to(torch.device('cuda')), self.config.refine_val)
 
         errs_total = {}
         if is_train or is_train is False and inputs['is_first']:
@@ -291,7 +291,7 @@ class DeblurNet(nn.Module):
     def forward(self, I_prev, I_curr, I_next, I_prev_deblurred, gt_prev=None, gt_curr=None, is_train=False):
         _, _, h, w = I_curr.size()
 
-        refine_h = h - h % 32
+        refine_h = h - h % 32 # 32:mod crop for liteflownet
         refine_w = w - w % 32
         I_curr_refined = I_curr[:, :, 0 : refine_h, 0 : refine_w]
         I_prev_refined = I_prev[:, :, 0 : refine_h, 0 : refine_w]

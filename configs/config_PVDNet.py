@@ -10,12 +10,12 @@ def get_config(project = '', mode = '', config = '', data = '', LRS = '', batch_
     config = main_config(project, mode, config, data, LRS, batch_size)
 
     ## LOCAL
+    # tarining
     actual_batch_size = config.batch_size * torch.cuda.device_count()
-    # config.lr_init = config.lr_init * math.sqrt(64./8.)
-
     config.lr_init = 1e-4
     config.trainer = 'trainer'
 
+    # networks
     config.network_BIMNet = 'liteFlowNet'
     config.network = 'PVDNet'
     config.network_PVDNet = config.network
@@ -23,12 +23,13 @@ def get_config(project = '', mode = '', config = '', data = '', LRS = '', batch_
     config.PV_ksize = 5
     config.fix_BIMNet = True
 
+    config.wi = 1.0 # weight init
+
     ## data
     config.frame_itr_num = 13
     config.frame_num = 3
 
-    config.refine_val = 8
-    config.wi = 1.0 # weight init
+    config.refine_val = 4 # mod crop value for PVDNet
 
     ## training schedule
     if config.data == 'nah':
@@ -40,8 +41,7 @@ def get_config(project = '', mode = '', config = '', data = '', LRS = '', batch_
 
     config.total_itr = 600000
     IpE = math.ceil((len(list(range(0, total_frame_num - (config.frame_itr_num-1), config.frame_itr_num)))) / actual_batch_size) * config.frame_itr_num
-
-    our_epoch = math.ceil(config.total_itr / IpE)
+    #our_epoch = math.ceil(config.total_itr / IpE)
 
     if config.LRS == 'LD':
         # lr_decay

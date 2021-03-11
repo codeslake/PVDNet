@@ -4,6 +4,7 @@ easydict==1.9
 torch-optimizer==0.1.0
 opencv-python==4.5.1.48
 ptflops==0.6.4
-cupy==8.5.0
 sklearn==0.0
 scikit-image==0.18.1
+cupy==8.5.0
+#cupy-cuda102==8.5.0 # if you uncomment this, remove above line!
