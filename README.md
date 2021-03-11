@@ -49,39 +49,49 @@ Moreover, a pixel volume provides an additional cue for motion compensation base
 Our pixel volume approach leads to the performance improvement of video deblurring by utilizing the multiple candidates in a pixel volume in two aspects: 1) in most cases, the majority cue for the correct match would help as the statistics (Sec. 4.4 in the main paper) shows, and 2) in other cases, *PVDNet* would exploit multiple candidates to estimate the correct match referring to nearby pixels with majority cues.
 
 ## Prerequisites
-`pip install -r requirements.txt`
+* Requirements
+    `pip install -r requirements.txt`
+
+* Datasets
+    Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `[DATASET_ROOT]` as follwing tree:
+    ```
+    ├── [DATASET_ROOT]
+    │   ├── train_DVD
+    │   ├── test_DVD
+    │   ├── train_nah
+    │   ├── test_nah
+    ```
+    > *`[DATASET_ROOT]` is currently set to `./datasets`. It can be specified by modifying `config.data_offset` in `./configs/config.py`.*
+
+* Pre-trained models
+    Download pretrained weights from [here](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=0). Then, unzip them under `./ckpt/`.
+    ```
+    ├── ckpt
+    │   ├── BIMNet.pytorch
+    │   ├── PVDNet_DVD.pytorch
+    │   ├── PVDNet_nah.pytorch
+    │   ├── PVDNet_large_nah.pytorch
+    ``` 
 
 ## Testing models of TOG2021
-> Download pretrained weights from [here TODO](). Then, unzip them under `./ckpt/`.
->
-> Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets` (*i.e.*, `./datasets/test_DVD/`, `./datasets/test_nah/`).
-
-> *The offset path for the datasets can be specified by modifying `config.data_offset` in `./configs/config.py`.*
-
 To test the final model:
+    ```bash
+    ## Table 4 in the main paper (Evaluation on Su etal's dataset)
+    # Our final model 
+    python run.py --mode PVDNet_DVD --config config_PVDNet --data DVD --ckpt_abs_name ckpt/PVDNet_DVD.pytorch
 
-```bash
-## Table 4 in the main paper (Evaluation on Su etal's dataset)
-# Our final model 
-python run.py --mode PVDNet_DVD --config config_PVDNet --data DVD --ckpt_abs_name ckpt/PVDNet_DVD.pytorch
+    ## Table 5 in the main paper (Evaluation on Nah etal's dataset)
+    # Our final model 
+    python run.py --mode PVDNet_nah --config config_PVDNet --data nah --ckpt_abs_name ckpt/PVDNet_nah.pytorch
 
-## Table 5 in the main paper (Evaluation on Nah etal's dataset)
-# Our final model 
-python run.py --mode PVDNet_nah --config config_PVDNet --data nah --ckpt_abs_name ckpt/PVDNet_nah.pytorch
-
-# Larger model
-python run.py --mode PVDNet_nah --config config_PVDNet_large --data nah --ckpt_abs_name ckpt/PVDNet_large_nah.pytorch
-```
-
-* options
-    * `--data`: The name of a dataset for evaluation. We have `DVD, nah` and `any`, where their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`. `--data any` is for testing models with any images, which should be placed under the folder `./datasets/any/`. 
+    # Larger model
+    python run.py --mode PVDNet_nah --config config_PVDNet_large --data nah --ckpt_abs_name ckpt/PVDNet_large_nah.pytorch
+    ```
+    * options
+        * `--data`: The name of a dataset for evaluation. We have `DVD, nah` and `any`, where their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`. `--data any` is for testing models with any images, which should be placed under the folder `[DATASET_ROOT]/any/`. 
 
 ## Training & testing the network
 ### Training
-> Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `./datasets/` (*i.e.*, `./datasets/train_DVD/`, `./datasets/train_nah/`).
-
-> *The offset path for the datasets can be specified by modifying `config.data_offset` in `./configs/config.py`.*
-
 ```bash
 # multi GPU (with DistributedDataParallel) example
 CUDA_VISIBLE_DEVICES=0,1,2,3 python -B -m torch.distributed.launch --nproc_per_node=4 --master_port=9000 run.py \
@@ -94,6 +104,20 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python -B -m torch.distributed.launch --nproc_per_n
             -b 2 \
             -th 8 \
             -dl \
+            -ss \
+            -dist
+
+# resuming example (trainer will load checkpoint of 100th epoch)
+CUDA_VISIBLE_DEVICES=0,1,2,3 python -B -m torch.distributed.launch --nproc_per_node=4 --master_port=9000 run.py \
+            --is_train \
+            --mode PVDNet_DVD \
+            --config config_PVDNet \
+            --trainer trainer \
+            --data DVD \
+            -LRS CA \
+            -b 2 \
+            -th 8 \
+            -r 100 \
             -ss \
             -dist
 
