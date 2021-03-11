@@ -53,7 +53,7 @@ Our pixel volume approach leads to the performance improvement of video deblurri
     `pip install -r requirements.txt`
 
 * Datasets
-    Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `[DATASET_ROOT]` as follwing tree:
+    Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) or [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `[DATASET_ROOT]` as following data structure:
     ```
     ├── [DATASET_ROOT]
     │   ├── train_DVD
@@ -75,7 +75,7 @@ Our pixel volume approach leads to the performance improvement of video deblurri
 
 ## Testing models of TOG2021
 * To test the final model,
-    ```bash
+    ```zsh
     ## Table 4 in the main paper (Evaluation on Su etal's dataset)
     # Our final model 
     python run.py --mode PVDNet_DVD --config config_PVDNet --data DVD --ckpt_abs_name ckpt/PVDNet_DVD.pytorch
@@ -88,11 +88,12 @@ Our pixel volume approach leads to the performance improvement of video deblurri
     python run.py --mode PVDNet_nah --config config_PVDNet_large --data nah --ckpt_abs_name ckpt/PVDNet_large_nah.pytorch
     ```
     * options
-        * `--data`: The name of a dataset for evaluation. We have `DVD, nah` and `any`, where their path can be modified by the function `set_eval_path(..)` in `./configs/config.py`. `--data any` is for testing models with any images, which should be placed under the folder `[DATASET_ROOT]/any/`. 
+        * `--data`: The name of a dataset for evaluation. We have `DVD, nah` and `any`, where their data structure can be modified by the function `set_eval_path(..)` in `./configs/config.py`.
+        * `--data any` is for testing models with any video frames, which should be placed under the folder `[DATASET_ROOT]/any/[video_name]/*.[jpg|png]`. 
 
 ## Training & testing the network
 ### Training
-```bash
+```zsh
 # multi GPU (with DistributedDataParallel) example
 CUDA_VISIBLE_DEVICES=0,1,2,3 python -B -m torch.distributed.launch --nproc_per_node=4 --master_port=9000 run.py \
             --is_train \
@@ -157,7 +158,7 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
 ### Testing
 > To test the trained model, specify `--mode` of the model. `--config` doesn't have to be specified, as it will be automatically loaded from the log folder according to the specified `--mode`.
 
-```bash
+```zsh
 python run.py --mode [MODE] --data [DATASET]
 # e.g., python run.py --mode PVDNet_DVD --data DVD
 ```
