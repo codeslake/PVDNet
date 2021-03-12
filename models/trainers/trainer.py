@@ -329,9 +329,9 @@ class DeblurNet(nn.Module):
                 outs['warped_bs_mask'] = warp(torch.ones_like(gt_prev), w_bs)
                 outs['warped_sb_mask'] = warp(torch.ones_like(gt_prev), w_sb)
                 outs['warped_ss_mask'] = warp(torch.ones_like(gt_prev), w_ss)
-
-        elif is_train and self.config.fix_BIMNet and self.config.save_sample:
+        elif self.config.save_sample and gt_prev is not None:
             outs['warped_bb'] = warp(norm(gt_prev), w_bb)
+
 
         return outs
 

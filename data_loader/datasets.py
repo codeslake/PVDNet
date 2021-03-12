@@ -20,7 +20,8 @@ class datasets(data.Dataset):
         self.w = config.width
         self.frame_num = config.frame_num
         self.frame_half = int(self.frame_num / 2)
-        self.rank = torch.distributed.get_rank()
+        if self.config.dist:
+            self.rank = torch.distributed.get_rank()
 
         if self.is_train:
             self.input_folder_path_list, self.input_file_path_list, _ = load_file_list(config.data_path, config.input_path)
