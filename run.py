@@ -163,39 +163,20 @@ class Trainer():
                 if self.rank <= 0:
                     if config.save_sample:
                         # saves image patches for logging
-                        inputs = self.model.results['inputs']
-                        outs = self.model.results['outs']
+                        vis = self.model.results['vis']
                         sample_dir = self.config.LOG_DIR.sample if is_train else self.config.LOG_DIR.sample_val
                         if itr == 1 or self.model.itr_global[state] % config.write_log_every_itr[state] == 0:
                             try:
-                                # for key, val in errs.items():
-                                #     self.summary.add_scalar('loss/{}_{}'.format(key, state), val, self.model.itr_global[state])
-
                                 i = 1
-                                for key, val in inputs.items():
+                                for key, val in vis.items():
                                     if val.dim() == 5:
                                         for j in range(val.size()[1]):
-                                            vutils.save_image(val[:, j, :, :, :], '{}/{}_{}_{}_{}_{}.jpg'.format(sample_dir, epoch, self.model.itr_global['train'], i, key, j), nrow=3, padding = 0, normalize = False)
+                                            vutils.save_image(val[:, j, :, :, :], '{}/E{:02}_I{:06}_{:02}_{}_{:03}.jpg'.format(sample_dir, epoch, self.model.itr_global[state], i, key, j), nrow=3, padding = 0, normalize = False)
                                     else:
-                                        b, c, h, w = val.size()
-                                        nrow = 1 if b == 1 else int(math.sqrt(b))
-                                        vutils.save_image(val, '{}/{}_{}_{}_{}.jpg'.format(sample_dir, epoch, self.model.itr_global['train'], i, key), nrow=nrow, padding = 0, normalize = False)
-                                        i += 1
-
-                                for key, val in outs.items():
-                                    if val.dim() == 5:
-                                        for j in range(val.size()[1]):
-                                            vutils.save_image(val[:, j, :, :, :], '{}/{}_{}_{}_out_{}_{}.jpg'.format(sample_dir, epoch, self.model.itr_global['train'], i, key, j), nrow=3, padding = 0, normalize = False)
-                                    else:
-                                        b, c, h, w = val.size()
-                                        nrow = 1 if b == 1 else int(math.sqrt(b))
-                                        if 'basis' in key:
-                                            nrow = 6
-                                        vutils.save_image(val, '{}/{}_{}_{}_out_{}.jpg'.format(sample_dir, epoch, self.model.itr_global['train'], i, key), nrow=nrow, padding = 0, normalize = False)
+                                        vutils.save_image(val, '{}/E{:02}_I{:06}_{:02}_{}.jpg'.format(sample_dir, epoch, self.model.itr_global[state], i, key), nrow=3, padding = 0, normalize = False)
                                     i += 1
-
                             except Exception as ex:
-                                if self.rank <= 0 :  print('saving error: ', ex)
+                                print('\n\n\n\nsaving error: ', ex, '\n\n\n\n')
 
                     self.lr = self.model.results['lr']
 

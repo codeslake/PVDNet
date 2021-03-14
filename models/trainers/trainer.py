@@ -152,18 +152,17 @@ class Model(baseModel):
     def _set_results(self, inputs, outs, errs, norm_, lr, is_train):
         ## save visuals (inputs)
         if self.rank <=0 and self.config.save_sample:
-            self.results['inputs'] = collections.OrderedDict()
-            self.results['inputs']['input'] = norm(inputs['input'][0:1, -1, :, :, :])
-            self.results['inputs']['gt'] = norm(inputs['gt'][0:1, -1, :, :, :])
+            self.results['vis'] = collections.OrderedDict()
+            self.results['vis']['input'] = norm(inputs['input'][:, -1, :, :, :])
+            self.results['vis']['gt'] = norm(inputs['gt'][:, -1, :, :, :])
 
             ## save visuals (outputs)
-            self.results['outs'] = {}
-            self.results['outs']['result'] = norm(outs['result'][0:1])
-            self.results['outs']['warped_bb'] = outs['warped_bb'][0:1]
+            self.results['vis']['result'] = norm(outs['result'])
+            self.results['vis']['warped_bb'] = outs['warped_bb']
             if self.config.fix_BIMNet is False:
-                self.results['outs']['warped_bs'] = outs['warped_bb'][0:1]
-                self.results['outs']['warped_sb'] = outs['warped_bb'][0:1]
-                self.results['outs']['warped_ss'] = outs['warped_bb'][0:1]
+                self.results['vis']['warped_bs'] = outs['warped_bb']
+                self.results['vis']['warped_sb'] = outs['warped_bb']
+                self.results['vis']['warped_ss'] = outs['warped_bb']
 
         ## essential ##
         # save scalars
