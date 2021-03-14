@@ -44,8 +44,8 @@ def init(config, mode = 'deblur'):
     network = model.get_network().eval()
 
     ckpt_manager = CKPT_Manager(config.LOG_DIR.ckpt, config.mode, config.max_ckpt_num)
-    state, ckpt_name = ckpt_manager.load_ckpt(network, by_score = config.EVAL.load_ckpt_by_score, name = config.EVAL.ckpt_name, abs_name = config.EVAL.ckpt_abs_name, epoch = config.EVAL.ckpt_epoch)
-    print('EVAL', state, ckpt_name)
+    load_state, ckpt_name = ckpt_manager.load_ckpt(network, by_score = config.EVAL.load_ckpt_by_score, name = config.EVAL.ckpt_name, abs_name = config.EVAL.ckpt_abs_name, epoch = config.EVAL.ckpt_epoch)
+    print('\nLoading checkpoint \'{}\' on model \'{}\': {}'.format(ckpt_name, config.mode, load_state))
 
     save_path_root = config.EVAL.LOG_DIR.save
 
@@ -155,17 +155,20 @@ def eval_quan_qual(config):
 
             # qualitative
             for iformat in ['png', 'jpg']:
+
                 Path(os.path.join(save_path_deblur, iformat, 'input')).mkdir(parents=True, exist_ok=True)
-                Path(os.path.join(save_path_deblur, iformat, 'output')).mkdir(parents=True, exist_ok=True)
-                Path(os.path.join(save_path_deblur, iformat, 'gt')).mkdir(parents=True, exist_ok=True)
-
                 save_file_path_deblur_input = os.path.join(save_path_deblur, iformat, 'input', '{:02d}.{}'.format(j+1, iformat))
-                save_file_path_deblur_output = os.path.join(save_path_deblur, iformat, 'output', '{:02d}.{}'.format(j+1, iformat))
-                save_file_path_deblur_gt = os.path.join(save_path_deblur, iformat, 'gt', '{:02d}.{}'.format(j+1, iformat))
-
                 vutils.save_image(inp, '{}'.format(save_file_path_deblur_input), nrow=1, padding = 0, normalize = False)
+
+                Path(os.path.join(save_path_deblur, iformat, 'output')).mkdir(parents=True, exist_ok=True)
+                save_file_path_deblur_output = os.path.join(save_path_deblur, iformat, 'output', '{:02d}.{}'.format(j+1, iformat))
                 vutils.save_image(output, '{}'.format(save_file_path_deblur_output), nrow=1, padding = 0, normalize = False)
-                vutils.save_image(gt, '{}'.format(save_file_path_deblur_gt), nrow=1, padding = 0, normalize = False)
+
+                if gt_file_path_list is not None:
+                    Path(os.path.join(save_path_deblur, iformat, 'gt')).mkdir(parents=True, exist_ok=True)
+                    save_file_path_deblur_gt = os.path.join(save_path_deblur, iformat, 'gt', '{:02d}.{}'.format(j+1, iformat))
+                    vutils.save_image(gt, '{}'.format(save_file_path_deblur_gt), nrow=1, padding = 0, normalize = False)
+
 
         # video average
         PSNR_mean_total += PSNR_mean

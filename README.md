@@ -19,13 +19,13 @@ This repository contains the official PyTorch implementation of the following pa
     </p>
     <p>
         Our video deblurring framework consists of three modules: a blur-invariant motion estimation network (<i>BIMNet</i>), a pixel volume generator, and a pixel volume-based deblurring network (<i>PVDNet</i>).
-        We first train *BIMNet*; after it has converged, we combine the two networks with the pixel volume generator.
+        We first train <i>BIMNet</i>; after it has converged, we combine the two networks with the pixel volume generator.
         We then fix the parameters of <i>BIMNet</i> and train <i>PVDNet</i> by training the entire network.
     </p>
     <h3> Blur-Invariant Motion Estimation Network (<i>BIMNet</i>)</h3>
     <p>
         To estimate motion between frames accurately, we adopt <a "https://arxiv.org/pdf/1805.07036.pdf">LiteFlowNet</a> and train it with a blur-invariant loss so that the trained network can estimate blur-invariant optical flow between frames.
-        We train *BIMNet* with ablur-invariant loss <img src="https://latex.codecogs.com/svg.latex?L_{BIM}^{\alpha\beta}" />, which is defined as (refer Eq. 1 in the main paper):
+        We train <i>BIMNet</i> with a blur-invariant loss <img src="https://latex.codecogs.com/svg.latex?L_{BIM}^{\alpha\beta}" />, which is defined as (refer Eq. 1 in the main paper):
     <p>
     <p align="center">
         <img src="./assets/BIMNet_eq.svg" />
@@ -69,7 +69,7 @@ This repository contains the official PyTorch implementation of the following pa
         > If you face a problem with `cupy` during installation, modify `cupy-cuda1xx` in `requirements.txt` to indicate proper version of the CUDAToolkit when PyTorch is installed (*e.g.*, `cupy-cuda102`).
 
 2. **Datasets**
-    * Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) and [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) under `[DATASET_ROOT]`:
+    * Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) and [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1) under `[DATASET_ROOT]`:
 
         ```
         ├── [DATASET_ROOT]
@@ -81,10 +81,10 @@ This repository contains the official PyTorch implementation of the following pa
 
         > **Note:**
         >
-        > `[DATASET_ROOT]` is currently set to `./datasets`. It can be specified by modifying `config.data_offset` in `./configs/config.py`.
+        > `[DATASET_ROOT]` is currently set to `./datasets/video_deblur`. It can be specified by modifying `config.data_offset` in `./configs/config.py`.
 
 3. **Pre-trained models**
-    * Download and unzip [pretrained weights](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=0) under `./ckpt/`:
+    * Download and unzip [pretrained weights](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1) under `./ckpt/`:
 
         ```
         ├── ./ckpt
@@ -114,21 +114,21 @@ This repository contains the official PyTorch implementation of the following pa
     * `config.log_offset`: configures `[LOG_ROOT]`. Default: `./logs`
     * `config.write_ckpt_every_epoch`: configures an epoch period for saving checkpoints, resume states and scalar logs. Default: 4
     * `config.write_log_every_itr`: configures an iteration period for saving sample images. Default: `{'train':16, 'valid':16}`
-    * `config.refresh_image_log_every_epoch`: configures an epoch period for erasing sample images. Defualt: `{'train':65, 'valid': 20}`
+    * `config.refresh_image_log_every_epoch`: configures an epoch period for erasing sample images. Default: `{'train':65, 'valid': 20}`
 
 ## Testing models of TOG2021
 
 ```shell
 ## Table 4 in the main paper (Evaluation on Su etal's dataset)
 # Our final model 
-python run.py --mode PVDNet_DVD --config config_PVDNet --data DVD --ckpt_abs_name ckpt/PVDNet_DVD.pytorch
+CUDA_VISIBLE_DEVICES=0 python run.py --mode PVDNet_DVD --config config_PVDNet --data DVD --ckpt_abs_name ckpt/PVDNet_DVD.pytorch
 
 ## Table 5 in the main paper (Evaluation on Nah etal's dataset)
 # Our final model 
-python run.py --mode PVDNet_nah --config config_PVDNet --data nah --ckpt_abs_name ckpt/PVDNet_nah.pytorch
+CUDA_VISIBLE_DEVICES=0 python run.py --mode PVDNet_nah --config config_PVDNet --data nah --ckpt_abs_name ckpt/PVDNet_nah.pytorch
 
 # Larger model
-python run.py --mode PVDNet_large_nah --config config_PVDNet_large --data nah --ckpt_abs_name ckpt/PVDNet_large_nah.pytorch
+CUDA_VISIBLE_DEVICES=0 python run.py --mode PVDNet_large_nah --config config_PVDNet_large --data nah --ckpt_abs_name ckpt/PVDNet_large_nah.pytorch
 ```
 
 > **Note:**
@@ -168,18 +168,13 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python -B -m torch.distributed.launch --nproc_per_n
 
 # single GPU (with DataParallel) example
 CUDA_VISIBLE_DEVICES=0 python -B run.py \
-            --is_train \
-            --mode PVDNet_DVD \
-            --config config_PVDNet \
-            --trainer trainer \
-            --data DVD \
-            -LRS CA \
-            -b 8 \
-            -th 8 \
-            -dl \
+            ... \
             -ss
 ```
 * Options
+    <!--<details>
+        <summary><i>Click here</i></summary>
+    -->
     * `--is_train`: If it is specified, `run.py` will train the network. Default: `False`
     * `--mode`: The name of a model to train. The logging folder named with the `[mode]` will be created as `[LOG_ROOT]/PVDNet_TOG2021/[mode]/`. Default: `PVDNet_DVD`
     * `--config`: The name of config file located as in `./config/[config].py`. Default: `None`, and the default should not be changed.
@@ -193,33 +188,15 @@ CUDA_VISIBLE_DEVICES=0 python -B run.py \
     * `-r`, `--resume`: Resume training with specified epoch # (e.g., `-r 100`). Note that `-dl` should not be specified with this option.
     * `-ss`, `--save_sample`: Save sample images for both training and testing. Images will be saved in `[LOG_ROOT]/PVDNet_TOG2022/[mode]/sample/`. Default: `False`
     * `-dist`: Enables multi-processing with `DistributedDataParallel`. Default: `False`
-
-<!--
-<details>
-    <summary>Otions</summary>
-    <ul>
-        <li><code>--is_train</code>: If it is specified, <code>run.py</code> will train the network. Default: <code>False</code></li>
-        <li><code>--mode</code>: The name of a model to train. The logging folder named with the <code>[mode]</code> will be created as <code>[LOG_ROOT]/PVDNet_TOG2021/[mode]/</code>. Default: <code>PVDNet_DVD</code></li>
-        <li><code>--config</code>: The name of config file located as in <code>./config/[config].py</code>. Default: <code>None</code>, and the default should not be changed.</li>
-        <li><code>--trainer</code>: The name of trainer file located as </code>./models/trainers/[trainer].py</code>. Default: <code>trainer</code></li>
-        <li><code>--data</code>: The name of dataset: <code>DVD</code> | <code>nah</code>. Default: <code>DVD</code></li>
-        <li><code>--network</code>: The name of network file (of PVDNet) located as <code>./models/archs/[network].py</code>. Default: <code>PVDNet</code></li>
-        <li><code>-LRS</code>: Learning rate scheduler for training: <code>CA</code>(Cosine annealing scheduler) | <code>LD</code>(step decay schedule). Default: <code>CA</code></li>
-        <li><code>-b</code>, <code>--batch_size</code>: The batch size. For the multi GPU (<code>DistributedDataParallel</code>), the total batch size will be, <code>nproc_per_node <li>b</code>. Default: 8</li>
-        <li><code>-th</code>, <code>--thread_num</code>: The number of thread (<code>num_workers</code>) used for the data loader. Default: 8</li>
-        <li><code>-dl</code>, <code>--delete_log</code>: The option whether to delete logs under <code>[mode]</code> (i.e., <code>[LOG_ROOT]/PVDNet_TOG2021/[mode]/*</code>). Option works only when <code>--is_train</code> is specified. Default: <code>False</code></li>
-        <li><code>-r</code>, <code>--resume</code>: Resume training with specified epoch # (e.g., <code>-r 100</code>). Note that <code>-dl</code> should not be specified with this option.</li>
-        <li><code>-ss</code>, <code>--save_sample</code>: Save sample images for both training and testing. Images will be saved in <code>[LOG_ROOT]/PVDNet_TOG2022/[mode]/sample/</code>. Default: <code>False</code></li>
-        <li><code>-dist</code>: Enables multi-processing with <code>DistributedDataParallel</code>. Default: <code>False</code></li>
-    </ul>
-</details>
--->
+    <!--
+    </details>
+    -->
 
 ### Testing
 
 ```shell
-python run.py --mode [mode] --data [DATASET]
-# e.g., python run.py --mode PVDNet_DVD --data DVD
+CUDA_VISIBLE_DEVICES=0 python run.py --mode [mode] --data [DATASET]
+# e.g., CUDA_VISIBLE_DEVICES=0 python run.py --mode PVDNet_DVD --data DVD
 ```
 
 > **Note:**
@@ -229,6 +206,9 @@ python run.py --mode [mode] --data [DATASET]
 > * Testing results will be saved in `[LOG_ROOT]/PVDNet_TOG2021/[mode]/result/quanti_quali/[mode]_[epoch]/[data]/`.
 
 * Options
+    <!--<details>
+        <summary><i>Click here</i></summary>
+    -->
     * `--mode`: The name of a model to test.
     * `--data`: The name of a dataset to evaluate: `DVD` | `nah` | `random`. Default: `DVD` 
         *  The data structure can be modified in the function `set_eval_path(..)` in `./configs/config.py`.
@@ -237,6 +217,15 @@ python run.py --mode [mode] --data [DATASET]
     * `-ckpt_abs_name`. Loads the checkpoint of the absolute path (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_abs_name ./ckpt/PVDNet_DVD.pytorch`).
     * `-ckpt_epoch`: Loads the checkpoint of the specified epoch (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_epoch 100`). 
     * `-ckpt_sc`: Loads the checkpoint with the best validation score (e.g., `python run.py --mode PVDNet_DVD --data DVD --ckpt_sc`).
+    <!--
+    </details>
+    -->
+
+## Evaluation
+Following [Su *et al.*](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=), to represent the ambiguity in the pixel location caused by blur, we measure PSNRs and SSIMs using the approach of [Koehler *et al.*](https://webdav.tuebingen.mpg.de/pixel/benchmark4camerashake/src_files/Pdf/Koehler_ECCV2012_Benchmark.pdf) that first aligns two images using global translation.
+
+The evaluation code is `evaluation.m`, which is coded in matlab. To test a model, specify a test set (`DVD` | `nah`) in line 12, and specify a test model and the path of results of the model (*e.g.*, line 20-21).
+
 
 ## Citation
 If you find this code useful, please consider citing:
@@ -260,9 +249,9 @@ All material related to our paper is available by following links:
 | :-------------- |
 | [The main paper (todo)](https://drive.google.com/file/d/1mRVo3JefkgRd2VdJvG5M-8xWtvl60ZWg/view?usp=sharing) |
 | [Supplementary Files (todo)](https://drive.google.com/file/d/1sQTGHEcko2HxoIvneyrot3bUabPrN5l1/view?usp=sharing) |
-| [Checkpoint Files](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=0) |
-| [Su *et al* [2017]'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=0) ([reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
-| [Nah *et al.* [2017]'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=0) ([reference](https://seungjunnah.github.io/Datasets/gopro)) |
+| [Checkpoint Files](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1) |
+| [Su *et al* [2017]'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) ([reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
+| [Nah *et al.* [2017]'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1) ([reference](https://seungjunnah.github.io/Datasets/gopro)) |
 
 ## License
 This software is being made available under the terms in the [LICENSE](LICENSE) file.
