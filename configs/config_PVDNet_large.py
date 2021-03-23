@@ -50,8 +50,6 @@ def get_config(project = '', mode = '', config = '', data = '', LRS = '', batch_
         config.warmup_itr = -1
     elif config.LRS == 'CA':
         # Cosine Anealing
-        config.decay_period = [400000]
-        config.decay_rate = 0.25
         config.warmup_itr = -1
         config.T_period = [50000, 100000, 150000, 150000, 150000]
         config.restarts = [50000, 150000, 300000, 450000]

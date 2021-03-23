@@ -53,8 +53,8 @@ def get_config(project = '', mode = '', config_ = '', data = '', LRS = '', batch
 
     # log dirs
     config.LOG_DIR = edict()
-    offset = '/Jarvis/logs/junyonglee'
-    offset = os.path.join(offset, config.project)
+    log_offset = '/Jarvis/logs/junyonglee'
+    offset = os.path.join(log_offset, config.project)
     offset = os.path.join(offset, '{}'.format(mode))
     config.LOG_DIR.offset = offset
     config.LOG_DIR.ckpt = os.path.join(config.LOG_DIR.offset, 'checkpoint', 'train', 'epoch')
