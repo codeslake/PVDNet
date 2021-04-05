@@ -150,7 +150,9 @@ class Trainer():
             if is_log:
                 bs = inputs['gt'].size()[0]
                 errs = self.model.results['errs']
+                norm = self.model.results['norm']
                 for k, v in errs.items():
+                    v = v * norm
                     if itr == 1:
                         self.err_epoch[state][k] = v
                     else:
@@ -158,7 +160,7 @@ class Trainer():
                             self.err_epoch[state][k] += v
                         else:
                             self.err_epoch[state][k] = v
-                self.norm = self.norm + self.model.results['norm']
+                self.norm = self.norm + norm
 
                 if self.rank <= 0:
                     if config.save_sample:

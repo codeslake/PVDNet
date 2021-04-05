@@ -149,7 +149,7 @@ class Model(baseModel):
     ########################### Edit from here for training/testing scheme ###############################
     ######################################################################################################
 
-    def _set_results(self, inputs, outs, errs, norm_, lr, is_train):
+    def _set_results(self, inputs, outs, errs, lr, norm_=1):
         ## save visuals (inputs)
         if self.rank <=0 and self.config.save_sample:
             self.results['vis'] = collections.OrderedDict()
@@ -237,7 +237,7 @@ class Model(baseModel):
         assert norm_ != 0
 
         # set results for the log
-        self._set_results(inputs, outs, errs_total, norm_, lr, is_train)
+        self._set_results(inputs, outs, errs_total, lr, norm_)
 
 class DeblurNet(nn.Module):
     def __init__(self, config):
