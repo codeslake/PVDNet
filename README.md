@@ -125,9 +125,7 @@ CUDA_VISIBLE_DEVICES=0 python run.py --mode PVDNet_large_nah --config config_PVD
 * [Training and testing details](https://github.com/codeslake/PVDNet/wiki/Training-&-Testing-Details)
 
 ## Evaluation
-Following [Su *et al.*](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=), to represent the ambiguity in the pixel location caused by blur, we measure PSNRs and SSIMs using the approach of [Koehler *et al.*](https://webdav.tuebingen.mpg.de/pixel/benchmark4camerashake/src_files/Pdf/Koehler_ECCV2012_Benchmark.pdf) that first aligns two images using global translation.
-
-The evaluation code is `evaluation.m`, which is coded in matlab. To test a model, specify a test set (`DVD` | `nah`) in line 12, and specify a test model and the path of results of the model (*e.g.*, line 20-21).
+Following [Su *et al.*](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=), to represent the ambiguity in the pixel location caused by blur, we measure PSNRs and SSIMs using the approach of [Koehler *et al.*](https://webdav.tuebingen.mpg.de/pixel/benchmark4camerashake/src_files/Pdf/Koehler_ECCV2012_Benchmark.pdf) that first aligns two images using global translation. Refer [here](https://github.com/codeslake/PVDNet/tree/main/evaluation) for more detail.
 
 ## Citation
 If you find this code useful, please consider citing:

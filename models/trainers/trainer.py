@@ -153,8 +153,8 @@ class Model(baseModel):
         ## save visuals (inputs)
         if self.rank <=0 and self.config.save_sample:
             self.results['vis'] = collections.OrderedDict()
-            self.results['vis']['input'] = norm(inputs['input'][:, -1, :, :, :])
-            self.results['vis']['gt'] = norm(inputs['gt'][:, -1, :, :, :])
+            self.results['vis']['input'] = norm(inputs['input'][:, -2, :, :, :])
+            self.results['vis']['gt'] = norm(inputs['gt'][:, -2, :, :, :])
 
             ## save visuals (outputs)
             self.results['vis']['result'] = norm(outs['result'])
@@ -260,13 +260,13 @@ class DeblurNet(nn.Module):
             torch.nn.init.xavier_uniform_(m.weight, gain = self.config.wi)
             if m.bias is not None:
                 torch.nn.init.constant_(m.bias, 0)
-            elif type(m) == torch.nn.BatchNorm2d or type(m) == torch.nn.InstanceNorm2d:
-                if m.weight is not None:
-                    torch.nn.init.constant_(m.weight, 1)
-                    torch.nn.init.constant_(m.bias, 0)
-            elif type(m) == torch.nn.Linear:
-                torch.nn.init.normal_(m.weight, 0, 0.01)
+        elif type(m) == torch.nn.BatchNorm2d or type(m) == torch.nn.InstanceNorm2d:
+            if m.weight is not None:
+                torch.nn.init.constant_(m.weight, 1)
                 torch.nn.init.constant_(m.bias, 0)
+        elif type(m) == torch.nn.Linear:
+            torch.nn.init.normal_(m.weight, 0, 0.01)
+            torch.nn.init.constant_(m.bias, 0)
 
     def init(self):
         if self.config.fix_BIMNet:

@@ -157,16 +157,16 @@ def eval_quan_qual(config):
             for iformat in ['png', 'jpg']:
 
                 Path(os.path.join(save_path_deblur, iformat, 'input')).mkdir(parents=True, exist_ok=True)
-                save_file_path_deblur_input = os.path.join(save_path_deblur, iformat, 'input', '{:02d}.{}'.format(j+1, iformat))
+                save_file_path_deblur_input = os.path.join(save_path_deblur, iformat, 'input', '{:05d}.{}'.format(j, iformat))
                 vutils.save_image(inp, '{}'.format(save_file_path_deblur_input), nrow=1, padding = 0, normalize = False)
 
                 Path(os.path.join(save_path_deblur, iformat, 'output')).mkdir(parents=True, exist_ok=True)
-                save_file_path_deblur_output = os.path.join(save_path_deblur, iformat, 'output', '{:02d}.{}'.format(j+1, iformat))
+                save_file_path_deblur_output = os.path.join(save_path_deblur, iformat, 'output', '{:05d}.{}'.format(j, iformat))
                 vutils.save_image(output, '{}'.format(save_file_path_deblur_output), nrow=1, padding = 0, normalize = False)
 
                 if gt_file_path_list is not None:
                     Path(os.path.join(save_path_deblur, iformat, 'gt')).mkdir(parents=True, exist_ok=True)
-                    save_file_path_deblur_gt = os.path.join(save_path_deblur, iformat, 'gt', '{:02d}.{}'.format(j+1, iformat))
+                    save_file_path_deblur_gt = os.path.join(save_path_deblur, iformat, 'gt', '{:05d}.{}'.format(j, iformat))
                     vutils.save_image(gt, '{}'.format(save_file_path_deblur_gt), nrow=1, padding = 0, normalize = False)
 
 

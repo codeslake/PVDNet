@@ -1,0 +1,305 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>MetriX MuX Home Page</title>
+
+<!-- meta name="Keywords" content="MetriX MuX; Cornell University; School of Electrical and Computer Engineering; Visual Communications Laboratory; VCL; human vision research; image quality assessment algorithms; image quality metrics; Matlab package; source code" -->
+<!-- meta name="Description" content="MetriX MuX is a Matlab-based software package that includes a simple, common API to utilize a number of perceptually-motivated image quality assessment algorithms." -->
+
+</head>
+
+<body>
+<font face="Arial">=====================================================<br>
+<font size="4">M</font>e<font size="4">T</font>ri<font size="4">X MuX</font> Visual Quality Assessment Package README (v. 1.1) &nbsp;&nbsp;&nbsp;&nbsp; <font color=#cc0000><b><a href="http://foulard.ece.cornell.edu/gaubatz/metrix_mux/metrix_mux_1.1.zip">Version 1.1</a></b></font> has been released!  To read more about this version, click <a href=#modernization>here</a>.
+ <br>
+=====================================================<br>
+<br>
+1.  <a href=#introduction>Introduction</a>:       WHAT MeTriX MuX is, and WHO should use it.
+<br><br>
+2.  <a href=#installation>Installation</a>:       HOW to obtain and configure MeTriX MuX.
+<br><br>
+3.  <a href=#instructions>Instructions</a>:       HOW to use MeTriX MuX.
+<br><br>
+4.  <a href=#organization>Organization</a>:       HOW the files in the package are structured. 
+<br><br>
+5.  <a href=#modification>Modification</a>:       WHAT has been done to code written by other researchers.
+<br><br>
+6.  <a href=#information>Information</a>:        WHERE users can learn more about visual quality assessment algorithms.
+<br><br>
+7.  <a href=#invitation>Invitation</a>:         WHERE to send comments or feedback, which is encouraged!
+<br><br>
+8.  <a href=#modernization>Modernization</a>:      WHICH bugs have been fixed, and what features have been added (versioning information).
+<br><br>
+<br>
+
+<a name=introduction>
+===============<br>
+1. INTRODUCTION<br>
+===============<br>
+<br>
+MeTriX MuX is a Matlab package that implements wrapper code for a variety of visual quality assessment algorithms.  A visual quality assessment algorithm is a function that assesses the difference between an original image and a distorted version of the image.  The algorithms involved in this package, for the most part, were designed to operate on two images of the same size.  If the images are not the same size, then the algorithms included herein do not necessarily apply.
+<br><br>
+Please notice that the quality assessment algorithms included in this package are the product of the devout research and hard work of many different researchers.  The authors of this particular package are not in any way trying to take credit for any of the algorithms.  In fact, many of these hard working researchers have made code available that computes the respective quality assessment algorithms, for which the authors are extremely grateful.  As a result, almost all of the quality assessment code that appears in this package in its original form.
+<br><br>
+The only contribution of this package, if anything, is <b>wrapper code</b>.  The intent of the authors is to make a large number of quality assessment algorithms accessible through a common interface, and to facilitate error condition checks such that it should be possible to apply any quality assessment algorithm with any pair of images.  Back when Ezra Cornell was working on image quality assessment, he dropped this gem, which has become our M.O.:
+<br><br>
+"I would create a Matlab-based image quality assessment package such that any two images can be compared with any quality assessment algorithm on any platform [running Matlab R14 or higher]."
+<br><br>
+Who should use MeTriX MuX?  If you are already quite skilled in the art, and have formed opinions regarding what algorithms are useful for what tasks, perhaps this package is not of interest.  On the other hand, if you are curious about how a visual quality assessment algorithm might be applied to a particular problem, and you would like to throw a handful of approaches at the problem with minimal effort, then MeTriX MuX is for you!
+<br><br>
+<br>
+
+<a name=installation>
+===============<br>
+2. INSTALLATION<br>
+===============<br>
+<br>
+1.  Download <a href="http://foulard.ece.cornell.edu/gaubatz/metrix_mux/metrix_mux_1.1.zip">http://foulard.ece.cornell.edu/gaubatz/metrix_mux/metrix_mux_1.1.zip</a>.<br>
+2.  Extract the contents of this file to your hard drive.<br>
+3.  Obtain a copy of Matlab R14 or higher.<br>  
+4.  Start Matlab, and set your directory to the newly extracted 'metrix_mux' folder.<br>
+5.  Run the
+</font>
+<font face="Courier New">configure_metrix_mux</font><font face="Arial"> script. 
+That is, at the prompt, type
+<br><br>
+</font><font face="Courier New">>> configure_metrix_mux</font><font face="Arial">
+<br><br>
+Presumably, if you are reading this file, you have at least completed steps 1 and 2 successfully.  All the configuration script does is update the Matlab path and run some MEX-file building routines.  If the 
+</font><font face="Courier New">configure_metrix_mux</font><font face="Arial"> routine completes successfully, the package should "just work".  Earlier versions of Matlab may be supported eventually, and some may even work now, but this release of the package is only geared towards Matlab releases 14 and up.
+<br><br>
+<br>
+
+<a name=instructions>
+===============<br>
+3. INSTRUCTIONS<br>
+===============<br>
+<br>
+1.  Read an image into  Matlab.<br>
+2.  Read a distorted version of that image into Matlab.<br>
+3.  Call the </font><font face="Courier New"> metrix_mux</font><font face="Arial"> function, with the original image as the first argument, the distorted image as the second argument, and a descriptor representing which algorithm to use to compare them for the third argument.<br>
+<br><br>
+The following snippet of code illustrates how, for example, the package should be used to compare 'lena.png' with a distorted version of the same image, 'lena_messed_up.png', using structural similarity index to measure the difference between the two.
+<br><br>
+</font><font face="Courier New"> >> reference_image = double( imread('lena.png') );<br>
+>> distorted_image = double( imread('lena_messed_up.png') );<br>
+>> distorted_ssim_index = metrix_mux( reference_image, distorted_image, 'SSIM' );</font><font face="Arial"><br>
+<br>
+<b>IMPORTANT NOTE:</b>  This package expects that input image data is scaled as it would be in a typical image file, that is, that the digital values of the pixels fall in the range [0,255].  If the input images are not of the class <font face="Courier New">double</font>, they will be converted to that class before the assessment algorithm is applied.  Bounds checking is <b>not</b> performed by this package to avoid accessing each pixel before applying an assessment algorithm.
+<br><br>
+The algorithms currently supported by this package, and their associated indicators, are listed in the table below:
+<br><br>
+<table>
+<tr><td><u>algorithm</u></td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td><u>indicator string</u></td></tr>
+<tr><td>mean-squared-error</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'MSE'</td></tr>
+<tr><td>peak signal-to-noise-ratio</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'PSNR'</td></tr>
+<tr><td>structural similarity index</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'SSIM'</td></tr>
+<tr><td>multi-scale SSIM index</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'MSSIM'</td></tr>
+<tr><td>visual signal-to-noise ratio</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'VSNR'</td></tr>
+<tr><td>visual information fidelity</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'VIF'</td></tr>
+<tr><td>pixel-based VIF</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'VIFP'</td></tr>
+<tr><td>universal quality index</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'UQI'</td></tr>
+<tr><td>information fidelity criterion</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'IFC'</td></tr>
+<tr><td>noise quality measure</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'NQM'</td></tr>
+<tr><td>weighted signal-to-noise ratio</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'WSNR'</td></tr>
+<tr><td>signal-to-noise ratio</td><td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td><td>'SNR'</td></tr>
+</table>
+<br><br>
+There is an "advanced" mode of use that is as follows.  Some of the algorithms require an image to be a certain size in order to function properly.  Normally, the package performs this preprocessing automatically, but if you are inclined to use the same image for several different comparisons, you can call the preprocessing routine, </font>
+<font face="Courier New">preprocess_metrix_mux</font><font face="Arial">, explicitly to prevent the preprocessing routine from doing the same operation multiple times for the same image: 
+<br><br>
+</font><font face="Courier New">>> reference_image = imread('lena.png') );<br>
+>> reference_image = preprocess_metrix_mux( reference_image );<br>
+>> distorted_image = imread('lena_messed_up.png');<br>
+>> distorted_image = preprocess_metrix_mux( distorted_image );<br>
+>><br>
+>> distorted_ssim_index = metrix_mux( reference_image, distorted_image, 'SSIM' );<br>
+>> distorted_psnr = metrix_mux( reference_image, distorted_image, 'PSNR' );<br>
+>><br>
+>> really_distorted_image = imread('lena_really_messed_up.png');<br>
+>> really_distorted_ssim_index = metrix_mux( reference_image, really_distorted_image, 'SSIM' );</font><font face="Arial"><br>
+<br>
+In this case, since the "really" distorted image is only used during one comparison, there is nothing gained by manually calling the preprocessing routine, so it is not called.  Also, each image is converted to the <font face="Courier New">double</font> class by the <font face="Courier New">preprocess_metrix_mux</font> routine.
+In the previous example above, this conversion was not necessary.  This preprocessing routine is applied to each image that is passed to the <font face="Courier New">metrix_mux</font> function.  If no further preprocessing is required, however, this routine has no effect.
+<br>
+<br>
+<b>ANOTHER IMPORTANT NOTE:</b> Please be very aware of what the preprocessing function does, even if you do not intend to call it explicitly.  If 'IFC','VIF','VSNR' or 'WSNR' are to be applied, the image is symmetrically extended in both dimensions until each dimension is a multiple of 32 and is at least 128.  If the image is a color image, regardless of algorithm is to be applied, the image is converted to a grayscale representation.  (Future releases may support color images, but the present version does not.)
+<br><br>
+<br>
+
+<a name=organization>
+===============<br>
+4. ORGANIZATION<br>
+===============<br>
+<br>
+The files included in this package are organized into the following structure.  Folder are indicated with '+' signs, and files are denoted with '-' signs.  The '.' characters represent files or folders that are not named (for space).
+<br><br>
++ MeTriX MuX <font color="#808080">[base directory]</font>
+<br><br>
+&nbsp&nbsp&nbsp&nbsp   - </font><font face="Courier New">metrix_mux.m</font><font face="Arial">
+<font color="#808080">[the main gateway to quality assessment algorithms]</font><br>
+&nbsp&nbsp&nbsp&nbsp   - </font><font face="Courier New">preprocess_metrix_mux.m</font><font face="Arial"> </font>
+<font color="#808080"><font face="Arial">[preprocessing routine, called by </font>
+<font face="Courier New">metrix_mux</font><font face="Arial">]</font></font><font face="Arial"><br>
+&nbsp&nbsp&nbsp&nbsp   - </font>
+<font face="Courier New">configure_metrix_mux.m</font><font face="Arial">
+<font color="#808080">[installation script]</font><br>
+&nbsp&nbsp&nbsp&nbsp   - </font>
+<font face="Courier New">test_metrix_mux.m</font><font face="Arial">
+<font color="#808080">[test script, called by the installation script]</font><br>
+&nbsp&nbsp&nbsp&nbsp   - </font>
+readme.html<font face="Arial"> <font color="#808080">[an HTML-based overview of this package]</font><br>
+<br>   
+   + metrix<font color="#808080"> [algorithm-specific wrapper files] </font>
+<br><br>   
+&nbsp&nbsp&nbsp&nbsp        - </font>
+<font face="Courier New">metrix_mse.m</font><font face="Arial">
+<font color="#808080">[mean-squared-error wrapper]</font><br>
+&nbsp&nbsp&nbsp&nbsp        - </font>
+<font face="Courier New">metrix_ssim.m</font><font face="Arial">
+<font color="#808080">[structural similarity wrapper]</font><br>
+&nbsp&nbsp&nbsp&nbsp        - </font>
+<font face="Courier New">metrix_vsnr.m</font><font face="Arial">
+<font color="#808080">[visual signal-to-noise-ratio wrapper]</font><br>
+&nbsp&nbsp&nbsp&nbsp        - </font>
+<font face="Courier New">compile_metrix_vsnr.m</font><font face="Arial">
+<font color="#808080">[VSNR MEX hook builder]</font><br>
+&nbsp&nbsp&nbsp&nbsp        .<br>
+&nbsp&nbsp&nbsp&nbsp        .<br>
+&nbsp&nbsp&nbsp&nbsp        .<br>
+&nbsp&nbsp&nbsp&nbsp        + ssim <font color="#808080">[folder with designer-written SSIM index computation code]</font><br>
+&nbsp&nbsp&nbsp&nbsp        + vsnr <font color="#808080">[folder with designer-written VSNR computation code]</font><br>
+&nbsp&nbsp&nbsp&nbsp        .<br>
+&nbsp&nbsp&nbsp&nbsp        .<br>
+&nbsp&nbsp&nbsp&nbsp        .<br>
+<br>        
+   + utilities <font color="#808080">[non-algorithm-specific routines]</font>
+<br><br>   
+&nbsp&nbsp&nbsp&nbsp        + matlabPyrTools <font color="#808080">[a Matlab steerable pyramid package]</font><br>
+&nbsp&nbsp&nbsp&nbsp        + dwt2d <font color="#808080">[two-dimensional discrete wavelet transform Matlab code]</font><br>
+<br>
+<br><br>
+The main folder contains 5 files:  an installation script, a test routine, a preprocessing command, an algorithm computation command, and an .html instructions file.  Every user will need to run the installation script, </font>
+<font face="Courier New">configure_metrix_mux</font><font face="Arial">, once and will access algorithm computation routines through </font>
+<font face="Courier New">metrix_mux</font><font face="Arial">.  The </font>
+<font face="Courier New">metrix_mux</font><font face="Arial"> routine will call the preprocessing routine, which will modify the input images to allow the assessment algorithms to be applied, if necessary.  The test routine is called by the installation script to test that the installed package actually works.
+<br><br>
+Code in the 'metrix' folder contains wrappers for each individual algorithm, as well as custom build routines for compiling any non-Matlab code (non-.m file routines, such as MEX interfaces).
+<br><br>
+Each algorithm wrapper is in a file titled '</font><font face="Courier New">metrix_</font><font face="Arial">' followed by the name of the algorithm.  (While this choice may seem redundant and somewhat unnecessary, it results in much cleaner code than a single file with a giant ugly switch statement.)  In the same way, each custom build routine is called '</font><font face="Courier New">compile_metrix_</font><font face="Arial">', followed by the name of the algorithm.  The 
+<span lang="en-us">'</span></font><font face="Courier New">metrix_<span lang="en-us">'</span></font><font face="Arial"> functions are called from the </font>
+<font face="Courier New">metrix_mux</font><font face="Arial"> command, and the<span lang="en-us">
+</span> </font><font face="Courier New">'compile_metrix_</font><font face="Arial"><span lang="en-us">'</span> functions are called from the </font>
+<font face="Courier New">configure_metrix_mux</font><font face="Arial"> command.  The subfolders within this folder contain designer-created algorithm computation routines, specific to the algorithm denoted by the name of the subfolder.  The subfolders of the 'utilities' folder contains code to compute transforms that is called by several of the assessment algorithms.
+<br><br>
+<b>YET ANOTHER IMPORTANT NOTE:</b>  Code that implements a steerable pyramid decomposition is needed by several of the algorithms included in this package.  As a result, the <a href="http://www.cns.nyu.edu/~lcv/software.html">matlabPyrTools</a> package has been included in entirety expressly for this purpose.  To learn more about the steerable pyramid decomposition, click <a href="http://www.cns.nyu.edu/~eero/steerpyr/">here</a>.
+This decomposition contains several computationally intensive steps.  Furthermore, there are in existence a variety of optimizations that speed some of these steps up.  If you are one of the intrepid researchers who has established a fully-functioning optimized version of the <a href="http://www.cns.nyu.edu/~lcv/software.html">matlabPyrTools</a> package, by all means, use that version instead of the one included in this package!  If it works really well, why not share it?
+<br><br>
+<br>
+
+<a name=modification>
+===============<br>
+5. MODIFICATION<br>
+===============<br>
+<br>
+Some algorithms have been modified to create a more portable package, but all code provided by image quality assessment algorithm designers has been retained in its original form.  If the package uses a modified version of a file created by a different author, the suffix </font><font face="Courier New">_modified</font><font face="Arial"> is attached the file name.  Furthermore, all comments added by the author of the MeTriX MuX package appear in these particular files as %%%MM%%%, to make the nature of the modifications as clear as possible.  Modified files are always placed in the same folders as the originals.
+<br><br>
+<br>
+
+<a name=information>
+==============<br>
+6. INFORMATION<br>
+==============<br>
+<br>
+Again, the author did not design any of the algorithms included in this package, but only has provided wrapper code such that a variety of algorithms can be easily accessed through a common interface.   This package is available at the following website:
+<br><br>
+<a href="http://foulard.ece.cornell.edu/gaubatz/metrix_mux/">http://foulard.ece.cornell.edu/gaubatz/metrix_mux/</a>
+<br><br>
+This package uses each included quality assessment algorithm with default settings for input parameters.  Interested users are strongly encouraged to read the documentation associated with individual quality assessment algorithms in order to gain a better understanding of how to use the algorithms.
+<br><br>
+More information for the included algorithms and/or original code can be found at the following websites:
+<br><br>
+<table>
+<tr><td><u>algorithm</u></td><td></td><td><u>website</u></td></tr>
+<tr><td>mean-squared-error (MSE)</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://foulard.ece.cornell.edu/gaubatz/metrix_mux/MSE.html">http://foulard.ece.cornell.edu/gaubatz/metrix_mux/MSE.html</a></td></tr>
+<tr><td>peak signal-to-noise ratio (PSNR)</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://foulard.ece.cornell.edu/gaubatz/metrix_mux/MSE.html">[see above]</a></td></tr>
+<tr><td>signal-to-noise ratio (SNR)</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://foulard.ece.cornell.edu/gaubatz/metrix_mux/MSE.html">[see above]</a></td></tr>
+<tr><td></td><td>&nbsp&nbsp&nbsp&nbsp</td><td></td></tr>
+<tr><td>structural similarity (SSIM) index</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://www.ece.uwaterloo.ca/~z70wang/research/ssim/">http://www.ece.uwaterloo.ca/~z70wang/research/ssim/</a></td></tr>
+<tr><td>multi-scale SSIM index</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://www.ece.uwaterloo.ca/~z70wang/research/ssim/">[see above]</a></td></tr>
+<tr><td></td><td>&nbsp&nbsp&nbsp&nbsp</td><td></td></tr>
+<tr><td>visual signal-to-noise ratio (VSNR)</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://foulard.ece.cornell.edu/dmc27/vsnr/vsnr.html">http://foulard.ece.cornell.edu/dmc27/vsnr/vsnr.html</a></td></tr>
+<tr><td></td><td>&nbsp&nbsp&nbsp&nbsp</td><td></td></tr>
+<tr><td>visual information fidelity (VIF)</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://live.ece.utexas.edu/research/quality/">http://live.ece.utexas.edu/research/quality/</a></td></tr>
+<tr><td>pixel-based VIF</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://live.ece.utexas.edu/research/quality/">[see above]</a></td></tr>
+<tr><td>information fidelity criterion (IFC)</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://live.ece.utexas.edu/research/quality/">[see above]</a></td></tr>
+<tr><td></td><td>&nbsp&nbsp&nbsp&nbsp</td><td></td></tr>
+<tr><td>universal quality index (UQI)</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://www.cns.nyu.edu/~zwang/files/research/quality_index/demo.html">http://www.cns.nyu.edu/~zwang/files/research/quality_index/demo.html</a></td></tr>
+<tr><td></td><td>&nbsp&nbsp&nbsp&nbsp</td><td></td></tr>
+<tr><td>noise quality measure (NQM)</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://signal.ece.utexas.edu/software/">http://signal.ece.utexas.edu/software/</a></td></tr>
+<tr><td>weighted signal-to-noise ratio (WSNR)</td><td>&nbsp&nbsp&nbsp&nbsp</td><td><a href="http://signal.ece.utexas.edu/software/">[see above]</a></td></tr>
+</table>
+<br><br>
+
+<a name=invitation>
+=============<br>
+7. INVITATION<br>
+=============<br>
+The goal of this package is to provide convenient, portable, efficient access to image quality assessment algorithms in Matlab.  This goal has not yet been achieved in full, but progress has been made.  Initial focus is on portability, and later releases will involved optimizations.
+<br><br>
+Please send all comments, questions, suggestions of feedback (especially if you would like to contribute) to 
+<script language="javascript">
+var_y = 'uedl' + '.' + 'elrncoz' + '@' + 'atubga';
+var_x = '';
+for ( i = 0; i <= var_y.length; i++ ) {
+        var_x = var_y.charAt(i) + var_x; }
+var_y = '';
+for ( i = 0; i < (var_x.length/2); i++ ) {
+    var_y += var_x.charAt(2*i+1) + var_x.charAt(2*i); }        
+document.write(var_y.substr(0,8));
+document.write('ece.');
+document.write(var_y.substr(8,11));
+document.write('.');
+</script>
+<br><br>
+Thanks!
+<br><br>
+
+<a name=modernization>
+================<br>
+8. MODERNIZATION<br>
+================<br>
+This section is dedicated to explanations regarding new releases, the latest features, bug fixes, as well as access to previous versions of MeTriX MuX.
+<br><br>
+<a href="http://foulard.ece.cornell.edu/gaubatz/metrix_mux/metrix_mux_1.1.zip">MeTriX MuX Version 1.1</a> represents the latest release, with some bug fixes and additional features.  Here's what's new in version 1.1:<br><br>
+<li>modified code has been added such that NQM and WSNR functions work with non-square images</li>
+<li>the standard signal-to-noise-ratio (SNR) ratio is now included</li>
+<li>bug fix: the default angle in <font face="Courier New">metrix_nqm.m</font> is now computed in degrees (instead of radians)</li>
+<li>bug fix: <font face="Courier New">metrix_wsnr.m</font> calls code to compute WSNR (instead of IFC)</li>
+<li>bug fix: <font face="Courier New">metrix_mux.m</font> handles numerical indicator strings without causing an error</li>
+<br><br>
+Special thanks the Daniele Ticca and David Rouse for their input!
+<br><br>
+Download older versions here:
+<br><br>
+<a href="http://foulard.ece.cornell.edu/gaubatz/metrix_mux/metrix_mux_1.0.zip">MeTriX MuX Version 1.0</a>
+
+<br>
+<br>
+<hr>
+<font size=-2>
+<font color="#808080">
+
+=============================<br>
+EXPLANATION and DISCLAMATION<br>
+=============================<br>
+It should be noted that the name of the package implies that it acts as multiplexor for image quality <i>metrics</i>, which strictly speaking, are not the same things as quality assessment algorithms.  The authors realize that it is not necessarily appropriate to refer to a given quality assessment algorithm as a "metric", since in the mathematical sense, it may not be one.  They feel, however, that the notational convenience of referring to a quality assessment tool colloquially, if not incorrectly, as a "metric" outweighs the chore of using one the multi-syllabic alternatives.  To remind users that the package does not in fact act as a wrapper for quality metrics, the word "metric" is transmogrified into the form "metrix".  Also, according to a limited set of test users, the title "metrix_mux" was more memorable than the technically more correct yet loquacious alternative, "perceptual_quality_assessment_algorithm_mux".
+<br><br>
+The wrapper code included in this package is provided as is without warranty of any kind, either express or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose.  The author(s) shall in no event be liable for any damages whatsoever including direct, indirect, incidental, consequential, loss of business profits or special damages.
+</font>
+</font>
+
+</body>
+
+</html>

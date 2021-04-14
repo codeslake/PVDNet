@@ -152,7 +152,6 @@ class Trainer():
                 errs = self.model.results['errs']
                 norm = self.model.results['norm']
                 for k, v in errs.items():
-                    v = v * norm
                     if itr == 1:
                         self.err_epoch[state][k] = v
                     else:
