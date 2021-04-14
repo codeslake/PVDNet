@@ -209,7 +209,7 @@ class Model(baseModel):
         Is = refine_image_pt(inputs['input'].to(torch.device('cuda')), self.config.refine_val)
         GTs = refine_image_pt(inputs['gt'].to(torch.device('cuda')), self.config.refine_val)
 
-        errs_total = {}
+        errs_total = collections.OrderedDict()
         if is_train or is_train is False and inputs['is_first']:
             self.I_prev_deblurred = Is[:, 0, :, :, :]
 
@@ -227,23 +227,21 @@ class Model(baseModel):
             # update network & get learning rate
             lr = self._update(errs, self.config.warmup_itr) if is_train else None
 
-            for k, v in outs.items():
-                outs[k] = v.detach()
-            for k, v in errs.items():
-                errs[k] = v.detach()
 
-            self.I_prev_deblurred = outs['result']
-
+            self.I_prev_deblurred = outs['result'].clone().detach()
 
             norm_ += outs['result'].size()[0]
-            for k, v in errs.items():
+            for k, v in errs_.items():
                 v_t = 0 if i == 0 else errs_total[k]
-                errs_total[k] = v_t + v * outs['result'].size()[0]
+                errs_total[k] = v_t + v.clone().detach() * outs['result'].size()[0]
 
         assert norm_ != 0
 
         # set results for the log
-        self._set_results(inputs, outs, errs_total, lr, norm_)
+        outs_ = collections.OrderedDict()
+        for k, v in outs.items():
+            outs_[k] = v.detach()
+        self._set_results(inputs, outs_, errs_total, lr, norm_)
 
 class DeblurNet(nn.Module):
     def __init__(self, config):
