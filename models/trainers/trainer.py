@@ -224,10 +224,16 @@ class Model(baseModel):
             gt_curr = GTs[:, i+1, :, :, :]
 
             errs, outs = self._get_results(I_prev, I_curr, I_next, self.I_prev_deblurred, gt_prev, gt_curr, is_train)
-            self.I_prev_deblurred = outs['result'].detach()
-
             # update network & get learning rate
             lr = self._update(errs, self.config.warmup_itr) if is_train else None
+
+            for k, v in outs.items():
+                outs[k] = v.detach()
+            for k, v in errs.items():
+                errs[k] = v.detach()
+
+            self.I_prev_deblurred = outs['result']
+
 
             norm_ += outs['result'].size()[0]
             for k, v in errs.items():
