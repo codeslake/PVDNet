@@ -22,7 +22,7 @@ function [psnr_mean, ssim_mean] = evaluation(test_model, folder_result, test_set
             frame_path_GT = dir(fullfile(folder_gt, video_paths(i).name,'sharp','*.png'));
         end
 
-        frame_path_result = dir(fullfile(folder_result, video_paths(i).name, 'png', 'output', '*.png'));
+        frame_path_result = dir(fullfile(folder_result, video_paths(i).name, '*.png'));
 
         num = length(frame_path_result);
         parfor j = 2:num
