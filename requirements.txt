@@ -8,4 +8,3 @@ sklearn==0.0
 scikit-image==0.18.1
 #cupy-cuda102==8.5.0 
 cupy-cuda111==8.5.0 
-#cupy==8.5.0
