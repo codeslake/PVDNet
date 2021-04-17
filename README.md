@@ -61,12 +61,17 @@ This repository contains the official PyTorch implementation of the following pa
 ![PyTorch 1.8.0](https://img.shields.io/badge/PyTorch-1.8.0-green.svg?style=plastic)
 ![CUDA 10.2](https://img.shields.io/badge/CUDA-10.2%20&%2011.1-green.svg?style=plastic)
 
-1. **Install requirements** 
-    * `pip install -r requirements.txt`
+1. **Environment setup** 
+    ```bash
+    $ git clone https://github.com/codeslake/PVDNet.git
+    $ cd PVDNet
 
-        > **Note:**        
-        >
-        > * If you face a problem with `cupy` during installation, modify `cupy-cuda1xx` in `requirements.txt` to indicate proper version of the CUDAToolkit when PyTorch is installed (*e.g.*, `cupy-cuda102`).
+    $ conda create -y --name PVDNet python=3.6 && conda activate PVDNet
+    # for CUDA10.2
+    $ sh install_CUDA10.2.sh
+    # for CUDA11.1
+    $ sh install_CUDA11.1.sh
+    ```
 
 2. **Datasets**
     * Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) and [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1) under `[DATASET_ROOT]`:
