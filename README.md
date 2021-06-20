@@ -7,7 +7,7 @@
 
 This repository contains the official PyTorch implementation of the following paper:
 
-> **[Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes (TODO)]()**<br>
+> **Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes**<br>
 > Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, Seungyong Lee, TOG 2021
 
 ## About the Research
@@ -66,7 +66,7 @@ This repository contains the official PyTorch implementation of the following pa
     $ git clone https://github.com/codeslake/PVDNet.git
     $ cd PVDNet
 
-    $ conda create -y --name PVDNet python=3.6 && conda activate PVDNet
+    $ conda create -y --name PVDNet python=3.8 && conda activate PVDNet
     # for CUDA10.2
     $ sh install_CUDA10.2.sh
     # for CUDA11.1
@@ -152,8 +152,8 @@ All material related to our paper is available by following links:
 
 | Link |
 | :-------------- |
-| [The main paper (todo)](https://drive.google.com/file/d/1mRVo3JefkgRd2VdJvG5M-8xWtvl60ZWg/view?usp=sharing) |
-| [Supplementary Files (todo)](https://drive.google.com/file/d/1sQTGHEcko2HxoIvneyrot3bUabPrN5l1/view?usp=sharing) |
+| The main paper (will be released soon)] |
+| Supplementary Files (will be released soon) |
 | [Checkpoint Files](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1) |
 | [Su *et al* [2017]'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) ([reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
 | [Nah *et al.* [2017]'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1) ([reference](https://seungjunnah.github.io/Datasets/gopro)) |
