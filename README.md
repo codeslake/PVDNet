@@ -1,4 +1,4 @@
-# PVDNet: Pixel Volume based Video Debluring Network
+# PVDNet: Pixel Volume-based Video Debluring Network
 ![License CC BY-NC](https://img.shields.io/badge/license-GNU_AGPv3-blue.svg?style=plastic)
 
 <p align="center">
