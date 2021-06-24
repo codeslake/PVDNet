@@ -152,7 +152,7 @@ All material related to our paper is available by following links:
 
 | Link |
 | :-------------- |
-| The main paper (will be released soon)] |
+| The main paper (will be released soon) |
 | Supplementary Files (will be released soon) |
 | [Checkpoint Files](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1) |
 | [Su *et al* [2017]'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) ([reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
