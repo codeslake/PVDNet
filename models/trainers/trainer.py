@@ -231,7 +231,7 @@ class Model(baseModel):
             self.I_prev_deblurred = outs['result'].clone().detach()
 
             norm_ += outs['result'].size()[0]
-            for k, v in errs_.items():
+            for k, v in errs.items():
                 v_t = 0 if i == 0 else errs_total[k]
                 errs_total[k] = v_t + v.clone().detach() * outs['result'].size()[0]
 

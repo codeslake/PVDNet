@@ -58,7 +58,7 @@ This repository contains the official PyTorch implementation of the following pa
 
 ![Ubuntu18.04](https://img.shields.io/badge/Ubuntu-16.0.4%20&%2018.0.4-blue.svg?style=plastic)
 ![Python 3.8.8](https://img.shields.io/badge/Python-3.8.8-green.svg?style=plastic)
-![PyTorch 1.8.0](https://img.shields.io/badge/PyTorch-1.8.0-green.svg?style=plastic)
+![PyTorch 1.8.0](https://img.shields.io/badge/PyTorch-1.8.0%20&%201.9.0-green.svg?style=plastic)
 ![CUDA 10.2](https://img.shields.io/badge/CUDA-10.2%20&%2011.1-green.svg?style=plastic)
 
 1. **Environment setup** 
