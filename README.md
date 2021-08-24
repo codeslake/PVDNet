@@ -7,7 +7,7 @@
 
 This repository contains the official PyTorch implementation of the following paper:
 
-> **Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes**<br>
+> **[Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes](https://dl.acm.org/doi/pdf/10.1145/3453720)**<br>
 > Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, Seungyong Lee, TOG 2021 (presented at SIGGRAPH 2021)
 
 ## About the Research
@@ -152,8 +152,7 @@ All material related to our paper is available by following links:
 
 | Link |
 | :-------------- |
-| The main paper (will be released soon) |
-| Supplementary Files (will be released soon) |
+| [The main paper](https://dl.acm.org/doi/pdf/10.1145/3453720) |
 | [Checkpoint Files](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1) |
 | [Su *et al* [2017]'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) ([reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
 | [Nah *et al.* [2017]'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1) ([reference](https://seungjunnah.github.io/Datasets/gopro)) |
