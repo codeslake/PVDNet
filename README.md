@@ -1,13 +1,15 @@
-# PVDNet: Pixel Volume-based Video Debluring Network
+# PVDNet: Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes
 ![License CC BY-NC](https://img.shields.io/badge/license-GNU_AGPv3-blue.svg?style=plastic)
 
-<p align="center">
-   <img src="./assets/network.jpg" />
+<p align="left">
+  <a href="https://youtu.be/2NDAEGAff50">
+    <img width=85% src="./assets/teaser.gif"/>
+  </a>
 </p>
 
 This repository contains the official PyTorch implementation of the following paper:
 
-> **[Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes](https://dl.acm.org/doi/pdf/10.1145/3453720)**<br>
+> **[Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes](https://arxiv.org/abs/2108.09982)**<br>
 > Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, Seungyong Lee, TOG 2021 (presented at SIGGRAPH 2021)
 
 ## About the Research
@@ -16,6 +18,9 @@ This repository contains the official PyTorch implementation of the following pa
     <h3> Overall Framework </h3>
     <p align="center">
     <img width=50% src="./assets/framework.jpg" />
+    </p>
+    <p align="center">
+    <img src="./assets/network.jpg" />
     </p>
     <p>
         Our video deblurring framework consists of three modules: a blur-invariant motion estimation network (<i>BIMNet</i>), a pixel volume generator, and a pixel volume-based deblurring network (<i>PVDNet</i>).
@@ -100,6 +105,10 @@ This repository contains the official PyTorch implementation of the following pa
         ```
 
 ## Testing models of TOG2021
+*For PSNRs and SSIMs reported in the paper, we use the approach of [Koehler *et al.*](https://webdav.tuebingen.mpg.de/pixel/benchmark4camerashake/src_files/Pdf/Koehler_ECCV2012_Benchmark.pdf)
+following [Su *et al.*](https://openaccess.thecvf.com/content_cvpr_2017/papers/Su_Deep_Video_Deblurring_CVPR_2017_paper.pdf),
+that first aligns two images using global translation to represent the ambiguity in the pixel location caused by blur.*<br>
+***Refer [here](https://github.com/codeslake/PVDNet/tree/main/evaluation) for the evaluation code.***
 
 ```shell
 ## Table 4 in the main paper (Evaluation on Su etal's dataset)
@@ -129,9 +138,6 @@ CUDA_VISIBLE_DEVICES=0 python run.py --mode PVDNet_large_nah --config config_PVD
 * [Logging](https://github.com/codeslake/PVDNet/wiki/Log-Details)
 * [Training and testing details](https://github.com/codeslake/PVDNet/wiki/Training-&-Testing-Details)
 
-## Evaluation
-Following [Su *et al.*](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=), to represent the ambiguity in the pixel location caused by blur, we measure PSNRs and SSIMs using the approach of [Koehler *et al.*](https://webdav.tuebingen.mpg.de/pixel/benchmark4camerashake/src_files/Pdf/Koehler_ECCV2012_Benchmark.pdf) that first aligns two images using global translation. Refer [here](https://github.com/codeslake/PVDNet/tree/main/evaluation) for more detail.
-
 ## Citation
 If you find this code useful, please consider citing:
 ```
@@ -153,6 +159,7 @@ All material related to our paper is available by following links:
 | Link |
 | :-------------- |
 | [The main paper](https://dl.acm.org/doi/pdf/10.1145/3453720) |
+| [arXiv](https://arxiv.org/abs/2108.09982) |
 | [Supplementary Files](https://www.dropbox.com/s/eoqfpw3cex4z652/supp.zip?dl=1) |
 | [Checkpoint Files](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1) |
 | [Su *et al* [2017]'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) ([reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
@@ -166,7 +173,7 @@ Any exemptions to these terms require a license from the Pohang University of Sc
 ## About Coupe Project
 Project ‘COUPE’ aims to develop software that evaluates and improves the quality of images and videos based on big visual data. To achieve the goal, we extract sharpness, color, composition features from images and develop technologies for restoring and improving by using them. In addition, personalization technology through user reference analysis is under study.  
     
-Please checkout other Coupe repositories in our [Posgraph](https://github.com/posgraph) github organization.
+Please check out other Coupe repositories in our [Posgraph](https://github.com/posgraph) github organization.
 
 ### Useful Links
 * [Coupe Library](http://coupe.postech.ac.kr/)
