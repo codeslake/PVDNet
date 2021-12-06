@@ -219,7 +219,7 @@ if __name__ == '__main__':
 
         ## DEFAULT
         parser.add_argument('-trainer', '--trainer', type = str, default = 'trainer', help = 'model name')
-        parser.add_argument('-net', '--network', type = str, default = 'PVDNet', help = 'network name')
+        parser.add_argument('-net', '--network', type = str, default = config.network, help = 'network name')
         parser.add_argument('-r', '--resume', type = str, default = config.resume, help = 'name of state or ckpt (names are the same)')
         parser.add_argument('-dl', '--delete_log', action = 'store_true', default = False, help = 'whether to delete log')
         parser.add_argument('-lr', '--lr_init', type = float, default = config.lr_init, help = 'leraning rate')

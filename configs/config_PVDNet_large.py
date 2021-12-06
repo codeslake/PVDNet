@@ -5,7 +5,6 @@ import torch
 import numpy as np
 
 def get_config(project = '', mode = '', config = '', data = '', LRS = '', batch_size = 8):
-
     ## GLOBAL
     config = main_config(project, mode, config, data, LRS, batch_size)
 
