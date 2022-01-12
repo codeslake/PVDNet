@@ -3,7 +3,10 @@ import torch
 import collections
 import numpy as np
 
-from models.archs.torch_correlation import FunctionCorrelation # the custom cost volume layer
+if float(torch.version.cuda) > 10.1:
+    from models.archs.torch_correlation_C11 import FunctionCorrelation # the custom cost volume layer
+else:
+    from models.archs.torch_correlation import FunctionCorrelation # the custom cost volume layer
 
 class Network(torch.nn.Module):
     def __init__(self):
