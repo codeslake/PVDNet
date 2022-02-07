@@ -1,4 +1,4 @@
-# PVDNet: Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes
+# PVDNet: Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes<br><sub>Official PyTorch Implementation of the TOG 2021 Paper</sub>
 ![License CC BY-NC](https://img.shields.io/badge/license-GNU_AGPv3-blue.svg?style=plastic)
 
 <p align="left">
@@ -7,10 +7,11 @@
   </a>
 </p>
 
-This repository contains the official PyTorch implementation of the following paper:
+This repo contains training and evaluation code for the following paper:
 
 > **[Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes](https://arxiv.org/abs/2108.09982)**<br>
-> Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, Seungyong Lee, TOG 2021 (presented at SIGGRAPH 2021)
+> Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, and Seungyong Lee<br>
+> *ACM Transactions on Graphics (**TOG**) 2021 (presented at **SIGGRAPH** 2021)*
 
 ## About the Research
 <details>
@@ -66,45 +67,46 @@ This repository contains the official PyTorch implementation of the following pa
 ![PyTorch 1.8.0](https://img.shields.io/badge/PyTorch-1.8.0%20&%201.9.0-green.svg?style=plastic)
 ![CUDA 10.2](https://img.shields.io/badge/CUDA-10.2%20&%2011.1-green.svg?style=plastic)
 
-1. **Environment setup** 
-    ```bash
-    $ git clone https://github.com/codeslake/PVDNet.git
-    $ cd PVDNet
+#### 1. Environment setup
+```bash
+$ git clone https://github.com/codeslake/PVDNet.git
+$ cd PVDNet
 
-    $ conda create -y --name PVDNet python=3.8 && conda activate PVDNet
-    # for CUDA10.2
-    $ sh install_CUDA10.2.sh
-    # for CUDA11.1
-    $ sh install_CUDA11.1.sh
-    ```
+$ conda create -y --name PVDNet python=3.8 && conda activate PVDNet
+# for CUDA10.2
+$ sh install_CUDA10.2.sh
+# for CUDA11.1
+$ sh install_CUDA11.1.sh
+```
 
-2. **Datasets**
-    * Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) and [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1) under `[DATASET_ROOT]`:
+#### 2. Datasets
+Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) and [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1) under `[DATASET_ROOT]`:
 
-        ```
-        ├── [DATASET_ROOT]
-        │   ├── train_DVD
-        │   ├── test_DVD
-        │   ├── train_nah
-        │   ├── test_nah
-        ```
+```
+[DATASET_ROOT]
+    ├── train_DVD
+    ├── test_DVD
+    ├── train_nah
+    └── test_nah
+```
 
-        > **Note:**
-        >
-        > * `[DATASET_ROOT]` is currently set to `./datasets/video_deblur`. It can be specified by modifying [`config.data_offset`](https://github.com/codeslake/PVDNet/blob/main/configs/config.py#L42-43) in `./configs/config.py`.
+> `[DATASET_ROOT]` can be modified with [`config.data_offset`](https://github.com/codeslake/PVDNet/blob/main/configs/config.py#L42-43) in `./configs/config.py`.
 
-3. **Pre-trained models**
-    * Download and unzip [pretrained weights](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1) under `./ckpt/`:
+#### 3. Pre-trained models
+Download and unzip [pretrained weights](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1) under `./ckpt/`:
 
-        ```
-        ├── ./ckpt
-        │   ├── BIMNet.pytorch
-        │   ├── PVDNet_DVD.pytorch
-        │   ├── PVDNet_nah.pytorch
-        │   ├── PVDNet_large_nah.pytorch
-        ```
+```
+.
+├── ...
+├── ./ckpt
+│   ├── BIMNet.pytorch
+│   ├── PVDNet_DVD.pytorch
+│   ├── PVDNet_nah.pytorch
+│   └── PVDNet_large_nah.pytorch
+└── ...
+```
 
-## Testing models of TOG2021
+## Testing models of TOG 2021
 *For PSNRs and SSIMs reported in the paper, we use the approach of [Koehler *et al.*](https://webdav.tuebingen.mpg.de/pixel/benchmark4camerashake/src_files/Pdf/Koehler_ECCV2012_Benchmark.pdf)
 following [Su *et al.*](https://openaccess.thecvf.com/content_cvpr_2017/papers/Su_Deep_Video_Deblurring_CVPR_2017_paper.pdf),
 that first aligns two images using global translation to represent the ambiguity in the pixel location caused by blur.*<br>
@@ -123,31 +125,19 @@ CUDA_VISIBLE_DEVICES=0 python run.py --mode PVDNet_nah --config config_PVDNet --
 CUDA_VISIBLE_DEVICES=0 python run.py --mode PVDNet_large_nah --config config_PVDNet_large --data nah --ckpt_abs_name ckpt/PVDNet_large_nah.pytorch
 ```
 
-> **Note:**
->
-> * Testing results will be saved in `[LOG_ROOT]/PVDNet_TOG2021/[mode]/result/quanti_quali/[mode]_[epoch]/[data]/`.
-> * `[LOG_ROOT]` is set to `./logs/` by default. Refer [here](https://github.com/codeslake/PVDNet/wiki/Log-Details) for more details about the logging.
+> Testing results will be saved in `[LOG_ROOT]/PVDNet_TOG2021/[mode]/result/quanti_quali/[mode]_[epoch]/[data]/`.
+
+> `[LOG_ROOT]` can be modified with [`config.log_offset`](https://github.com/codeslake/PVDNet/blob/main/configs/config.py#L56) in `./configs/config.py`.
 
 
-* options
-    * `--data`: The name of a dataset to evaluate: `DVD` | `nah` | `random`. Default: `DVD`
-        * The data structure can be modified in the function [`set_eval_path(..)`](https://github.com/codeslake/PVDNet/blob/main/configs/config.py#L120-133) in `./configs/config.py`.
-        * `random` is for testing models with any video frames, which should be placed as `[DATASET_ROOT]/random/[video_name]/*.[jpg|png]`. 
+#### options
+* `--data`: The name of a dataset to evaluate: `DVD` | `nah` | `random`. Default: `DVD`
+    * The data structure can be modified in the function [`set_eval_path(..)`](https://github.com/codeslake/PVDNet/blob/main/configs/config.py#L120-133) in `./configs/config.py`.
+    * `random` is for testing models with any video frames, which should be placed as `[DATASET_ROOT]/random/[video_name]/*.[jpg|png]`. 
 
 ## Wiki
 * [Logging](https://github.com/codeslake/PVDNet/wiki/Log-Details)
 * [Training and testing details](https://github.com/codeslake/PVDNet/wiki/Training-&-Testing-Details)
-
-## Citation
-If you find this code useful, please consider citing:
-```
-@artical{Son_2021_TOG,
-    author = {Son, Hyeongseok and Lee, Junyong and Lee, Jonghyeop and Cho, Sunghyun and Lee, Seungyong},
-    title = {Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes},
-    journal = {ACM Transactions on Graphics},
-    year = {2021}
-}
-```
 
 ## Contact
 Open an issue for any inquiries.
@@ -170,11 +160,14 @@ This software is being made available under the terms in the [LICENSE](LICENSE) 
 
 Any exemptions to these terms require a license from the Pohang University of Science and Technology.
 
-## About Coupe Project
-Project ‘COUPE’ aims to develop software that evaluates and improves the quality of images and videos based on big visual data. To achieve the goal, we extract sharpness, color, composition features from images and develop technologies for restoring and improving by using them. In addition, personalization technology through user reference analysis is under study.  
-    
-Please check out other Coupe repositories in our [Posgraph](https://github.com/posgraph) github organization.
+## Citation
+If you find this code useful, please consider citing:
+```
+@artical{Son_2021_TOG,
+    author = {Son, Hyeongseok and Lee, Junyong and Lee, Jonghyeop and Cho, Sunghyun and Lee, Seungyong},
+    title = {Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes},
+    journal = {ACM Transactions on Graphics},
+    year = {2021}
+}
+```
 
-### Useful Links
-* [Coupe Library](http://coupe.postech.ac.kr/)
-* [POSTECH CG Lab.](http://cg.postech.ac.kr/)
