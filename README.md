@@ -64,8 +64,8 @@ This repo contains training and evaluation code for the following paper:
 
 ![Ubuntu18.04](https://img.shields.io/badge/Ubuntu-16.0.4%20&%2018.0.4-blue.svg?style=plastic)
 ![Python 3.8.8](https://img.shields.io/badge/Python-3.8.8-green.svg?style=plastic)
-![PyTorch 1.8.0](https://img.shields.io/badge/PyTorch-1.8.0%20&%201.9.0-green.svg?style=plastic)
-![CUDA 10.2](https://img.shields.io/badge/CUDA-10.2%20&%2011.1-green.svg?style=plastic)
+![PyTorch 1.8.0](https://img.shields.io/badge/PyTorch-1.8.0%20&%201.9.0%20&%201.10.2-green.svg?style=plastic)
+![CUDA 10.2](https://img.shields.io/badge/CUDA-10.2%20&%2011.1%20&%2011.3-green.svg?style=plastic)
 
 #### 1. Environment setup
 ```bash
@@ -73,10 +73,17 @@ $ git clone https://github.com/codeslake/PVDNet.git
 $ cd PVDNet
 
 $ conda create -y --name PVDNet python=3.8 && conda activate PVDNet
+
+# Install Pytorch (1.8.1 for example,)
+$ conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 -c pytorch
+
+# Install required dependencies (one of below depend on CUDA version)
 # for CUDA10.2
 $ sh install_CUDA10.2.sh
 # for CUDA11.1
 $ sh install_CUDA11.1.sh
+# for CUDA11.3
+$ sh install_CUDA11.3.sh
 ```
 
 #### 2. Datasets
