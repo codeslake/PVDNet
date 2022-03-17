@@ -1,17 +1,18 @@
 # PVDNet: Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes<br><sub>Official PyTorch Implementation of the TOG 2021 Paper</sub>
 ![License CC BY-NC](https://img.shields.io/badge/license-GNU_AGPv3-blue.svg?style=plastic)
 
+This repo contains training and evaluation code for the following paper:
+### Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes
+> Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, and Seungyong Lee<br>
+> *ACM Transactions on Graphics (**TOG**) 2021 (presented at **SIGGRAPH** 2021)*<br>
+> [Paper](https://dl.acm.org/doi/pdf/10.1145/3453720) | [arXiv](https://arxiv.org/abs/2108.09982) | [Supp](https://www.dropbox.com/s/eoqfpw3cex4z652/supp.zip?dl=1) 
+
 <p align="left">
   <a href="https://youtu.be/2NDAEGAff50">
     <img width=85% src="./assets/teaser.gif"/>
   </a>
 </p>
 
-This repo contains training and evaluation code for the following paper:
-
-> **[Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes](https://arxiv.org/abs/2108.09982)**<br>
-> Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, and Seungyong Lee<br>
-> *ACM Transactions on Graphics (**TOG**) 2021 (presented at **SIGGRAPH** 2021)*
 
 ## About the Research
 <details>
@@ -87,7 +88,9 @@ $ sh install_CUDA11.3.sh
 ```
 
 #### 2. Datasets
-Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) and [Nah *et al.*'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1) under `[DATASET_ROOT]`:
+Download and unzip datasets under `[DATASET_ROOT]`:
+* Su *et al.*'s dataset: [Google Drive](https://drive.google.com/open?id=1OY3mHiDbhCfVmwPA_gqckRDp4Ekryh7d&authuser=codeslake%40gmail.com&usp=drive_fs) \| [Dropbox](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) 
+* Nah *et al.*'s dataset: [Google Drive](https://drive.google.com/open?id=1O_VHISCRlff0gmfIqBnAr0RupvVUrJ9j&authuser=codeslake%40gmail.com&usp=drive_fs) \| [Dropbox](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1)
 
 ```
 [DATASET_ROOT]
@@ -100,7 +103,7 @@ Download and unzip [Su *et al.*'s dataset](https://www.dropbox.com/s/8daduee9igq
 > `[DATASET_ROOT]` can be modified with [`config.data_offset`](https://github.com/codeslake/PVDNet/blob/main/configs/config.py#L42-43) in `./configs/config.py`.
 
 #### 3. Pre-trained models
-Download and unzip [pretrained weights](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1) under `./ckpt/`:
+Download and unzip pretrained weights ([Google Drive](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=0) \| [Dropbox](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1)) under `./ckpt/`:
 
 ```
 .
@@ -149,18 +152,6 @@ CUDA_VISIBLE_DEVICES=0 python run.py --mode PVDNet_large_nah --config config_PVD
 ## Contact
 Open an issue for any inquiries.
 You may also have contact with [sonhs@postech.ac.kr](mailto:sonhs@postech.ac.kr) or [junyonglee@postech.ac.kr](mailto:junyonglee@postech.ac.kr)
-
-## Resources
-All material related to our paper is available by following links:
-
-| Link |
-| :-------------- |
-| [The main paper](https://dl.acm.org/doi/pdf/10.1145/3453720) |
-| [arXiv](https://arxiv.org/abs/2108.09982) |
-| [Supplementary Files](https://www.dropbox.com/s/eoqfpw3cex4z652/supp.zip?dl=1) |
-| [Checkpoint Files](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1) |
-| [Su *et al* [2017]'s dataset](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) ([reference](http://www.cs.ubc.ca/labs/imager/tr/2017/DeepVideoDeblurring/#dataset)) |
-| [Nah *et al.* [2017]'s dataset](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1) ([reference](https://seungjunnah.github.io/Datasets/gopro)) |
 
 ## License
 This software is being made available under the terms in the [LICENSE](LICENSE) file.
