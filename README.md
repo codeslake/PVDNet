@@ -1,11 +1,10 @@
-# PVDNet: Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes<br><sub>Official PyTorch Implementation of the TOG 2021 Paper</sub>
-![License CC BY-NC](https://img.shields.io/badge/license-GNU_AGPv3-blue.svg?style=plastic)
+## PVDNet: Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes<br><sub>Official PyTorch Implementation of the TOG 2021 Paper</sub><br><sub>[Paper](https://dl.acm.org/doi/pdf/10.1145/3453720) | [arXiv](https://arxiv.org/abs/2108.09982) | [Supp](https://www.dropbox.com/s/eoqfpw3cex4z652/supp.zip?dl=1)</sub>
 
 This repo contains training and evaluation code for the following paper:
-### Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes
-> Hyeongseok Son, Junyong Lee, Jonghyeop Lee, Sunghyun Cho, and Seungyong Lee<br>
+> [**Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes**](https://dl.acm.org/doi/pdf/10.1145/3453720)<br>
+> [Hyeongseok Son](https://sites.google.com/site/sonhspostech/), [Junyong Lee](https://junyonglee.me), Jonghyeop Lee, [Sunghyun Cho](https://www.scho.pe.kr/), and [Seungyong Lee](http://cg.postech.ac.kr/leesy/)<br>
+> POSTECH<br>
 > *ACM Transactions on Graphics (**TOG**) 2021 (presented at **SIGGRAPH** 2021)*<br>
-> [Paper](https://dl.acm.org/doi/pdf/10.1145/3453720) | [arXiv](https://arxiv.org/abs/2108.09982) | [Supp](https://www.dropbox.com/s/eoqfpw3cex4z652/supp.zip?dl=1) 
 
 <p align="left">
   <a href="https://youtu.be/2NDAEGAff50">
@@ -154,18 +153,20 @@ Open an issue for any inquiries.
 You may also have contact with [sonhs@postech.ac.kr](mailto:sonhs@postech.ac.kr) or [junyonglee@postech.ac.kr](mailto:junyonglee@postech.ac.kr)
 
 ## License
+![License CC BY-NC](https://img.shields.io/badge/license-GNU_AGPv3-blue.svg?style=plastic)<br>
 This software is being made available under the terms in the [LICENSE](LICENSE) file.
-
 Any exemptions to these terms require a license from the Pohang University of Science and Technology.
 
 ## Citation
 If you find this code useful, please consider citing:
 ```
-@artical{Son_2021_TOG,
-    author = {Son, Hyeongseok and Lee, Junyong and Lee, Jonghyeop and Cho, Sunghyun and Lee, Seungyong},
-    title = {Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes},
-    journal = {ACM Transactions on Graphics},
-    year = {2021}
+@Article{Son2021PVDNet,
+    author  = {Hyeongseok Son and Junyong Lee and Jonghyeop Lee and Sunghyun Cho and Seungyong Lee},
+    title   = {Recurrent Video Deblurring with Blur-Invariant Motion Estimation and Pixel Volumes},
+    journal = {ACM Transactions on Graphics (TOG)},
+    volume  = {40},
+    number  = {5},
+    year    = {2021}
 }
 ```
 
