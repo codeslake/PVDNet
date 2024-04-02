@@ -88,8 +88,8 @@ $ sh install_CUDA11.3.sh
 
 #### 2. Datasets
 Download and unzip datasets under `[DATASET_ROOT]`:
-* Su *et al.*'s dataset: [Google Drive](https://drive.google.com/open?id=1OY3mHiDbhCfVmwPA_gqckRDp4Ekryh7d&authuser=codeslake%40gmail.com&usp=drive_fs) \| [Dropbox](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) 
-* Nah *et al.*'s dataset: [Google Drive](https://drive.google.com/open?id=1O_VHISCRlff0gmfIqBnAr0RupvVUrJ9j&authuser=codeslake%40gmail.com&usp=drive_fs) \| [Dropbox](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1)
+* Su *et al.*'s dataset: [OneDrive](https://onedrive.live.com/download?resid=94530B7E5F49D254%21545&authkey=!AHZP3Je5-bBsuA4) \| [Dropbox](https://www.dropbox.com/s/8daduee9igqx5cw/DVD.zip?dl=1) 
+* Nah *et al.*'s dataset: [OneDrive](https://onedrive.live.com/download?resid=94530B7E5F49D254%2119667&authkey=!AL_VqEHMIZFXpSw) \| [Dropbox](https://www.dropbox.com/s/5ese6qtbwy7fsoh/nah.zip?dl=1)
 
 ```
 [DATASET_ROOT]
@@ -102,7 +102,7 @@ Download and unzip datasets under `[DATASET_ROOT]`:
 > `[DATASET_ROOT]` can be modified with [`config.data_offset`](https://github.com/codeslake/PVDNet/blob/main/configs/config.py#L42-43) in `./configs/config.py`.
 
 #### 3. Pre-trained models
-Download and unzip pretrained weights ([Google Drive](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=0) \| [Dropbox](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1)) under `./ckpt/`:
+Download and unzip pretrained weights ([OneDrive](https://1drv.ms/f/s!AlTSSV9-C1OUfhhkzmfhPMelqdk?e=9qqVYL) \| [Dropbox](https://www.dropbox.com/sh/frpegu68s0yx8n9/AACrptFFhxejSyKJBvLdk9IJa?dl=1)) under `./ckpt/`:
 
 ```
 .
